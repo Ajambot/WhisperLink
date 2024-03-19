@@ -1,15 +1,15 @@
 import React from 'react'
 
 interface Props {
-    text: string;
     senderName: string;
+    children: React.ReactNode
 }
 
-const Message = ({text, senderName}: Props) => {
+const Message = ({children, senderName}: Props) => {
   return (
     <div>
         <h1>{senderName}</h1>
-        <p>{text}</p>
+        <p>{children}</p>
     </div>
   )
 }
