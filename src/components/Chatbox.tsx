@@ -2,8 +2,14 @@ import { useState } from "react";
 import { sendMessage } from "../handlers";
 
 const Chatbox = () => {
+<<<<<<< HEAD
   const [msg, setMsg] = useState<string>("");
   const [file, setFile] = useState<File>();
+=======
+    const [ msg, setMsg ] = useState<string>("")
+    const [ file, setFile ] = useState<File>()
+  
+>>>>>>> development
   return (
     <form
       className="chatroom-chatbox"
