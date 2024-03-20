@@ -1,11 +1,12 @@
 import React from 'react';
 
+
 interface HomePageProps {
     onJoin: () => void;
     onCreate: () => void;
 }
 
-const HomePage: React.FC<HomePageProps> = ({ onJoin, onCreate }) => {
+const HomePage: React.FC<HomePageProps> = ({onJoin, onCreate }) => {
     return (
         <div className="home">
             <h1>Welcome to WhisperLink</h1>

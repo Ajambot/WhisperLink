@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Chatbox from './Chatbox'
 
 interface Props {
@@ -6,6 +6,7 @@ interface Props {
 }
 
 const Chat = ({ children }: Props) => {
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <div>
         <div className='chat-header'>
