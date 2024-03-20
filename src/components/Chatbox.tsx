@@ -4,6 +4,7 @@ import { sendMessage } from '../handlers'
 const Chatbox = () => {
     const [ msg, setMsg ] = useState<string>("")
     const [ file, setFile ] = useState<File>()
+  
   return (
     <form className="chatroom-chatbox" onSubmit={
           (e) => {
