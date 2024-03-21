@@ -4,4 +4,5 @@ export type message = {
   sessionId: string;
   text: string;
   sentAt: string
+  chatId: number
 }

@@ -19,16 +19,16 @@ function App() {
   const [openChats, setOpenChats] = useState<number[]>([]);
 
   useEffect(() => {
-    const unsub = addMessageListener(setMessages);
+    const unsub = addMessageListener(openChats, setMessages);
     return () => unsub();
-  }, []);
+  }, [openChats]);
 
-  const toggleChat = (chatId: number) => {
-    if (openChats.includes(chatId)) {
-      setOpenChats(openChats.filter((id) => id !== chatId));
-    } else {
-      setOpenChats([...openChats, chatId]);
-    }
+  const toggleChat = (chatId: number)  => {
+    setOpenChats(currentChats => 
+      currentChats.includes(chatId) ? 
+      currentChats.filter(id => id !== chatId) : 
+      [...currentChats, chatId]
+    );
   };
 
   return (
@@ -37,16 +37,14 @@ function App() {
         openChats.map((chatId) => (
           <Chat
             key={chatId}
-            chatId={0}
-            onClose={toggleChat}
+            chatId={chatId}
+            onClose={() => toggleChat(chatId)}
           >
-            {messages.map((message) => {
-              return (
-                <Message key={message.sentAt} senderName={message.senderName} chatId={chatId}>
-                  {message.text}
-                </Message>
-              );
-            })}
+            {messages.filter(msg => msg.chatId === chatId).map((message) => (
+              <Message key={message.sentAt.toString()} senderName={message.senderName} chatId={chatId}>
+                {message.text}
+              </Message>
+            ))}
           </Chat>
         ))
       ) : (

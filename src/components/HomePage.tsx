@@ -3,7 +3,7 @@ import ChatIdGen from './ChatIdGenerator';
 
 
 interface HomePageProps {
-    onJoin: (chatId?: number) => void; 
+    onJoin: (chatId: number) => void; 
     onCreate: (chatId: number) => void; 
 }
 
@@ -14,7 +14,7 @@ const HomePage: React.FC<HomePageProps> = ({onJoin, onCreate }) => {
     };
 
     const handleJoin = () => {
-        onJoin(); // Modify as needed, e.g., onJoin(predefinedChatId);
+        onJoin(ChatIdGen()); // Modify as needed, e.g., onJoin(predefinedChatId);
     };
 
     return (

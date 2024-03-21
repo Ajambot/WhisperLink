@@ -25,16 +25,16 @@ const store = getStorage(app)
 connectFirestoreEmulator(db, '127.0.0.1', 8080); // Remove in production
 connectStorageEmulator(store, '127.0.0.1', 9199); // Remove in production
 
-export const addMessageListener = (setMessages: React.Dispatch<SetStateAction<message[]>>) => {
+export const addMessageListener = (chatIds: number[], setMessages: React.Dispatch<SetStateAction<message[]>>) => {
     const unsub = onSnapshot(collection(db, "Messages"), (querySnapshot) => {
       const messages:message[] = []
       querySnapshot.forEach((msg) => {
         const data = msg.data() as message;
-        if (data.chatId === chatId) { // Filter messages by sessionId
-          messages.push(data);
+        if (chatIds.includes(data.chatId)) { // Filter messages by chatId
+          messages.push(msg.data() as message);
         }
 
-        messages.push(msg.data() as message);
+        
       });
       messages.sort((a, b) => (a.sentAt > b.sentAt) ? 1 : -1);
       setMessages(messages);
@@ -43,7 +43,7 @@ export const addMessageListener = (setMessages: React.Dispatch<SetStateAction<me
     return () => unsub();
 }
 
-export const sendMessage = (chatId: number, message: string, file: File | undefined) => { void(async ( message: string, file: File | undefined) => {
+export const sendMessage = async ( chatId: number, message: string, file: File | undefined) => {
   let fileLink
   if(file){
     const extension = file.name.split(".").pop();
@@ -51,10 +51,11 @@ export const sendMessage = (chatId: number, message: string, file: File | undefi
     fileLink = await uploadBytes(ref(store, filename), file).then((snapshot)=> getDownloadURL(snapshot.ref).then((downloadURL)=>downloadURL))
   }
   await addDoc(collection(db, "Messages"), {
+    chatId: chatId,
     senderName: "Martin",
     text: message,
     fileLink: fileLink || null,
     sessionId: "",
     sentAt: new Date(),
-  })
-})(message, file)};
+});
+};
