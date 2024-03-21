@@ -25,10 +25,15 @@ const store = getStorage(app)
 connectFirestoreEmulator(db, '127.0.0.1', 8080); // Remove in production
 connectStorageEmulator(store, '127.0.0.1', 9199); // Remove in production
 
-export const addMessageListener = (setMessages: React.Dispatch<SetStateAction<message[]>>) => {
+export const addMessageListener = (chatId: number, setMessages: React.Dispatch<SetStateAction<message[]>>) => {
     const unsub = onSnapshot(collection(db, "Messages"), (querySnapshot) => {
       const messages:message[] = []
       querySnapshot.forEach((msg) => {
+        const data = msg.data() as message;
+        if (data.chatId === chatId) { // Filter messages by sessionId
+          messages.push(data);
+        }
+
         messages.push(msg.data() as message);
       });
       messages.sort((a, b) => (a.sentAt > b.sentAt) ? 1 : -1);

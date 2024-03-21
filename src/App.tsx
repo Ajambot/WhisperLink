@@ -16,36 +16,53 @@ import type { message } from "./types";
 
 function App() {
   const [messages, setMessages] = useState<message[]>([]);
-  const [isChatOpen, setIsChatOpen] = useState(false); // State to control chatbox visibility
+  const [openChats, setOpenChats] = useState<number[]>([]);
 
   useEffect(() => {
     const unsub = addMessageListener(setMessages);
     return () => unsub();
   }, []);
 
-  const toggleChat = () => setIsChatOpen(!isChatOpen); // Toggle chatbox state
+  const toggleChat = (chatId: number) => {
+    if (openChats.includes(chatId)) {
+      setOpenChats(openChats.filter((id) => id !== chatId));
+    } else {
+      setOpenChats([...openChats, chatId]);
+    }
+  };
 
   return (
     <>
-      {isChatOpen ? (
-        <Chat>
-          {messages.map((message) => {
-            return (
-              <Message senderName={message.senderName}>{message.text}</Message>
-            );
-          })}
-        </Chat>
+      {openChats.length > 0 ? (
+        openChats.map((chatId) => (
+          <Chat
+            key={chatId}
+            children={undefined}
+            chatId={0}
+            onClose={function (chatId: number): void {
+              throw new Error("Function not implemented.");
+            }}
+          >
+            {messages.map((message) => {
+              return (
+                <Message senderName={message.senderName}>
+                  {message.text}
+                </Message>
+              );
+            })}
+          </Chat>
+        ))
       ) : (
         <HomePage
-          onJoin={() => {
-            setIsChatOpen(true);
+          onJoin={(chatId: number) => {
+            setOpenChats([...openChats, chatId]);
             console.log("Join button clicked");
           }}
-          onCreate={() => {
-            setIsChatOpen(true);
+          onCreate={(chatId: number) => {
+            setOpenChats([...openChats, chatId]);
             console.log("Create button clicked");
           }}
-        ></HomePage>
+        />
       )}
     </>
   );

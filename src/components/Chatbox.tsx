@@ -1,7 +1,10 @@
 import { useState } from 'react'
 import { sendMessage } from '../handlers'
 
-const Chatbox = () => {
+interface ChatboxProps {
+  chatId: number; 
+}
+const Chatbox = ({ chatId }: ChatboxProps) => {
     const [ msg, setMsg ] = useState<string>("")
     const [ file, setFile ] = useState<File>()
   
@@ -9,7 +12,7 @@ const Chatbox = () => {
     <form className="chatroom-chatbox" onSubmit={
           (e) => {
             e.preventDefault()
-            sendMessage(msg, file);
+            sendMessage(chatId, msg, file);
             setMsg("")
             setFile(undefined)
             e.currentTarget.reset()
