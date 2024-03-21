@@ -37,15 +37,12 @@ function App() {
         openChats.map((chatId) => (
           <Chat
             key={chatId}
-            children={undefined}
             chatId={0}
-            onClose={function (chatId: number): void {
-              throw new Error("Function not implemented.");
-            }}
+            onClose={toggleChat}
           >
             {messages.map((message) => {
               return (
-                <Message senderName={message.senderName}>
+                <Message key={message.sentAt} senderName={message.senderName} chatId={chatId}>
                   {message.text}
                 </Message>
               );
@@ -55,7 +52,7 @@ function App() {
       ) : (
         <HomePage
           onJoin={(chatId: number) => {
-            setOpenChats([...openChats, chatId]);
+            toggleChat(chatId);
             console.log("Join button clicked");
           }}
           onCreate={(chatId: number) => {

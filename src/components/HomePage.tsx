@@ -3,7 +3,7 @@ import ChatIdGen from './ChatIdGenerator';
 
 
 interface HomePageProps {
-    onJoin: () => void; 
+    onJoin: (chatId?: number) => void; 
     onCreate: (chatId: number) => void; 
 }
 
@@ -12,12 +12,17 @@ const HomePage: React.FC<HomePageProps> = ({onJoin, onCreate }) => {
         const newChatId = ChatIdGen(); //Placeholder for new chatId will need to change
         onCreate(newChatId);
     };
+
+    const handleJoin = () => {
+        onJoin(); // Modify as needed, e.g., onJoin(predefinedChatId);
+    };
+
     return (
         <div className="home">
             <h1>Welcome to WhisperLink</h1>
             <div className="buttons">
-                <button onClick={onJoin}>Join a Chatroom</button>
-                <button onClick={onCreate}>Create a Chatroom</button>
+                <button onClick={handleCreate}>Join a Chatroom</button>
+                <button onClick={handleJoin}>Create a Chatroom</button>
             </div>
         </div>
     );

@@ -8,25 +8,29 @@ interface Props {
 }
 
 const Chat = ({ children, chatId, onClose }: Props) => {
-  const [isOpen, setIsOpen] = useState(false);
-  return (
+  const [isOpen, setIsOpen] = useState(true);
+
+  const handleClose = () => {
+    onClose(chatId);
+    setIsOpen(false); // if managing open/close state within component
+  };
+
+  return isOpen ? (
     <>
       <div className="chat-header">
-        <a href="#">Chat ID: {chatId}</a> {/* Displaying the Chat ID */}
         <button 
           type="button" 
           className="chat-close" 
           aria-label="close"
-          onClick={() => onClose(chatId)} // Using onClose with chatId to close this specific chat
+          onClick = {handleClose} // Using onClose with chatId to close this specific chat
         >
           Close chat
         </button>
       </div>
       <div className="chatroom-main">{children}</div>
-      {/* You might need to pass chatId to Chatbox if it needs to know which chat it is part of */}
       <Chatbox chatId={chatId} />
     </>
-  );
+  ): null;
 };
 
 export default Chat;
