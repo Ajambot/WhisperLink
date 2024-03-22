@@ -55,8 +55,8 @@ export const addMessageListener = (setMessages: React.Dispatch<SetStateAction<me
   return () => unsub();
 };
 
-export const createNewChat = (chatId: string, user: user) => {
-  void (async (chatId: string, user: user) => {
+export const createNewChat = (chatId: number, user: user) => {
+  void (async (chatId: number, user: user) => {
     await setDoc(doc(db, "Chats", chatId), {
       createdAt: new Date(),
       users: [user],
@@ -66,11 +66,11 @@ export const createNewChat = (chatId: string, user: user) => {
 };
 
 export const sendMessage = (
-  chatId: string,
+  chatId: number,
   message: string,
   file: File | undefined
 ) => {
-  void (async (chatId: string, message: string, file: File | undefined) => {
+  void (async (chatId: number, message: string, file: File | undefined) => {
     let fileLink;
     if (file) {
       const extension = file.name.split(".").pop();
