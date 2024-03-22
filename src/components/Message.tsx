@@ -17,3 +17,4 @@ const Message = ({ children, senderName, chatId }: Props) => {
 };
 
 export default Message;
+

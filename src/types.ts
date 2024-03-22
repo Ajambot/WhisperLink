@@ -6,3 +6,15 @@ export type message = {
   sentAt: string
   chatId: number
 }
+
+export type user = {
+  username: string;
+  userId: string;
+};
+
+export type chat = {
+  sessionId: string;
+  createdAt: string;
+  users: user[];
+  messages: message[];
+};

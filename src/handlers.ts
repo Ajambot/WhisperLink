@@ -7,6 +7,9 @@ import {
   addDoc,
   onSnapshot,
   getFirestore,
+  arrayUnion,
+  updateDoc,
+  setDoc,
 } from "firebase/firestore";
 import type { message } from "./types";
 import { SetStateAction } from "react";
@@ -38,45 +41,54 @@ const store = getStorage(app);
 connectFirestoreEmulator(db, "127.0.0.1", 8080); // Remove in production
 connectStorageEmulator(store, "127.0.0.1", 9199); // Remove in production
 
-export const addMessageListener = (
-  chatIds: number[],
-  setMessages: React.Dispatch<SetStateAction<message[]>>
-) => {
-  const unsub = onSnapshot(collection(db, "Messages"), (querySnapshot) => {
-    const messages: message[] = [];
-    querySnapshot.forEach((msg) => {
-      const data = msg.data() as message;
-      if (chatIds.includes(data.chatId)) {
-        // Filter messages by chatId
+
+export const addMessageListener = (setMessages: React.Dispatch<SetStateAction<message[]>>) => {
+    const unsub = onSnapshot(collection(db, "Messages"), (querySnapshot) => {
+      const messages:message[] = []
+      querySnapshot.forEach((msg) => {
         messages.push(msg.data() as message);
-      }
-    });
-    messages.sort((a, b) => (a.sentAt > b.sentAt ? 1 : -1));
-    setMessages(messages);
-  });
+      });
+      messages.sort((a, b) => (a.sentAt > b.sentAt) ? 1 : -1);
+      setMessages(messages);
+    })
 
   return () => unsub();
 };
 
-export const sendMessage = async (
-  chatId: number,
+export const createNewChat = (chatId: string, user: user) => {
+  void (async (chatId: string, user: user) => {
+    await setDoc(doc(db, "Chats", chatId), {
+      createdAt: new Date(),
+      users: [user],
+      messages: [],
+    });
+  })(chatId, user);
+};
+
+export const sendMessage = (
+  chatId: string,
   message: string,
   file: File | undefined
 ) => {
-  let fileLink;
-  if (file) {
-    const extension = file.name.split(".").pop();
-    const filename = uuidv4() + "." + extension;
-    fileLink = await uploadBytes(ref(store, filename), file).then((snapshot) =>
-      getDownloadURL(snapshot.ref).then((downloadURL) => downloadURL)
-    );
-  }
-  await addDoc(collection(db, "Messages"), {
-    chatId: chatId,
-    senderName: "Martin",
-    text: message,
-    fileLink: fileLink || null,
-    sessionId: "",
-    sentAt: new Date(),
-  });
+  void (async (chatId: string, message: string, file: File | undefined) => {
+    let fileLink;
+    if (file) {
+      const extension = file.name.split(".").pop();
+      const filename = uuidv4() + "." + extension;
+      fileLink = await uploadBytes(ref(store, filename), file).then(
+        (snapshot) =>
+          getDownloadURL(snapshot.ref).then((downloadURL) => downloadURL)
+      );
+    }
+    const newMessage = {
+      senderName: "Martin",
+      text: message,
+      fileLink: fileLink || null,
+      sessionId: "",
+      sentAt: new Date(),
+    };
+    await updateDoc(doc(db, "Chats", chatId), {
+      messages: arrayUnion(newMessage),
+    });
+  })(chatId, message, file);
 };

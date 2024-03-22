@@ -11,15 +11,18 @@ import {
 } from "firebase/firestore";
 import Message from "./components/Message";
 import Chat from "./components/Chat";
-import { addMessageListener } from "./handlers";
-import type { message } from "./types";
+import { addChatsListener, createNewChat, addMessageListener } from "./handlers";
+import type { message, chat } from "./types";
+import ChatIdGen from "./components/ChatIdGenerator.ts";
 
 function App() {
-  const [messages, setMessages] = useState<message[]>([]);
+  const [chats, setChats] = useState<chat[]>([]);
   const [openChats, setOpenChats] = useState<number[]>([]);
+  const [messages, setMessages] = useState<message[]>([]);
 
   useEffect(() => {
-    const unsub = addMessageListener(openChats, setMessages);
+    
+    const unsub = addChatsListener(setChats);
     return () => unsub();
   }, [openChats]);
 
@@ -49,15 +52,17 @@ function App() {
         ))
       ) : (
         <HomePage
-          onJoin={(chatId: number) => {
+          onJoin={() => {
             toggleChat(chatId);
             console.log("Join button clicked");
+            createNewChat(ChatIdGen, { username: "Martin", userId: "1" });
           }}
-          onCreate={(chatId: number) => {
+          onCreate={() => {
             setOpenChats([...openChats, chatId]);
             console.log("Create button clicked");
+            createNewChat(ChatIdGen, { username: "Martin", userId: "1" });
           }}
-        />
+        ></HomePage>
       )}
     </>
   );

@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import Chatbox from "./Chatbox";
 
 interface Props {
-  children: React.ReactNode;
-  chatId: number; // Adding chatId to the props
-  onClose: (chatId: number) => void; // Function to call when closing the chat
+    children: React.ReactNode;
+    chatId: number; // Adding chatId to the props
+    onClose: (chatId: number) => void; // Function to call when closing the chat
 }
 
 const Chat = ({ children, chatId, onClose }: Props) => {
@@ -34,3 +34,4 @@ const Chat = ({ children, chatId, onClose }: Props) => {
 };
 
 export default Chat;
+
