@@ -1,17 +1,12 @@
-<<<<<<< HEAD
 import React from "react";
 import Chatbox from "./Chatbox";
-=======
-import React, { useState } from 'react'
-import Chatbox from './Chatbox'
->>>>>>> development
 
 interface Props {
   children: React.ReactNode;
+  chatId: string;
 }
 
-const Chat = ({ children }: Props) => {
-  const [isOpen, setIsOpen] = useState(false);
+const Chat = ({ children, chatId }: Props) => {
   return (
     <div>
       <div className="chat-header">
@@ -21,7 +16,7 @@ const Chat = ({ children }: Props) => {
         </button>
       </div>
       <div className="chatroom-main">{children}</div>
-      <Chatbox />
+      <Chatbox chatId={chatId} />
     </div>
   );
 };

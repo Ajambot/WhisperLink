@@ -1,21 +1,20 @@
 import { useState } from "react";
 import { sendMessage } from "../handlers";
 
-const Chatbox = () => {
-<<<<<<< HEAD
+interface Props {
+  chatId: string;
+}
+
+const Chatbox = ({ chatId }: Props) => {
   const [msg, setMsg] = useState<string>("");
   const [file, setFile] = useState<File>();
-=======
-    const [ msg, setMsg ] = useState<string>("")
-    const [ file, setFile ] = useState<File>()
-  
->>>>>>> development
+
   return (
     <form
       className="chatroom-chatbox"
       onSubmit={(e) => {
         e.preventDefault();
-        sendMessage(msg, file);
+        sendMessage(chatId, msg, file);
         setMsg("");
         setFile(undefined);
         e.currentTarget.reset();
