@@ -6,7 +6,6 @@ interface Props {
 }
 
 const Chat = ({ children }: Props) => {
-  const [isOpen, setIsOpen] = useState(false);
   return (
     <div>
         <div className='chat-header'>

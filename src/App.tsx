@@ -23,8 +23,6 @@ function App() {
     return () => unsub();
   }, []);
 
-  const toggleChat = () => setIsChatOpen(!isChatOpen); // Toggle chatbox state
-
   return (
     <>
       {isChatOpen ? (
