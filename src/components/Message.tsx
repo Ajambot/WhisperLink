@@ -1,17 +1,17 @@
-import React from 'react'
+import React from "react";
 
 interface Props {
-    senderName: string;
-    children: React.ReactNode
+  senderName: string;
+  children: React.ReactNode;
 }
 
-const Message = ({children, senderName}: Props) => {
+const Message = ({ children, senderName }: Props) => {
   return (
     <div>
-        <h1>{senderName}</h1>
-        <p>{children}</p>
+      <h1>{senderName}</h1>
+      <p>{children}</p>
     </div>
-  )
-}
+  );
+};
 
-export default Message
+export default Message;
