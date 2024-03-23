@@ -1,49 +1,82 @@
 import { useEffect, useState } from "react";
 import HomePage from "./components/HomePage.tsx";
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import {
-  connectFirestoreEmulator,
-  collection,
-  query,
-  onSnapshot,
-  getFirestore,
-} from "firebase/firestore";
 import Message from "./components/Message";
 import Chat from "./components/Chat";
-import { addMessageListener } from "./handlers";
-import type { message } from "./types";
+import { addChatsListener, createNewChat } from "./handlers";
+import { chat } from "./types";
+import Popup from "./components/Popup.tsx";
 
 function App() {
-  const [messages, setMessages] = useState<message[]>([]);
-  const [isChatOpen, setIsChatOpen] = useState(false); // State to control chatbox visibility
+  const [chats, setChats] = useState<chat[]>([]);
+  const [openChat, setOpenChat] = useState(0);
+  const [popups, setPopups] = useState({
+    link: false,
+    create: false,
+    join: false,
+  });
 
   useEffect(() => {
-    const unsub = addMessageListener(setMessages);
+    const unsub = addChatsListener(setChats);
     return () => unsub();
   }, []);
+  const link = chats.length
+    ? "http://localhost:5000?chatId=" + chats[openChat].sessionId
+    : "";
 
   return (
     <>
-      {isChatOpen ? (
-        <Chat>
-          {messages.map((message) => {
+      {chats.length ? (
+        <>
+          {chats.map((chat, index) => {
             return (
-              <Message senderName={message.senderName}>{message.text}</Message>
+              <button type="button" onClick={() => setOpenChat(index)}>
+                {chat.sessionId}
+              </button>
             );
           })}
-        </Chat>
+          <Chat chatId={chats[openChat].sessionId}>
+            {chats[openChat].messages.map((message) => {
+              return (
+                <Message senderName={message.senderName}>
+                  {message.text}
+                </Message>
+              );
+            })}
+          </Chat>
+        </>
       ) : (
         <HomePage
           onJoin={() => {
-            setIsChatOpen(true);
-            console.log("Join button clicked");
+            createNewChat("123", { username: "Martin", userId: "1" });
+            setPopups({ ...popups, link: true });
           }}
-          onCreate={() => {
-            setIsChatOpen(true);
-            console.log("Create button clicked");
+          onCreate={async () => {
+            await createNewChat("123", { username: "Martin", userId: "1" });
+            setPopups({ ...popups, link: true });
           }}
         ></HomePage>
+      )}
+      {popups.link ? (
+        <Popup
+          title="Your chat link"
+          closeFn={() => setPopups({ ...popups, link: false })}
+        >
+          <input type="text" readOnly value={link} />
+          <button
+            type="button"
+            onClick={() => navigator.clipboard.writeText(link)}
+          >
+            Copy
+          </button>
+          <button
+            type="button"
+            onClick={() => setPopups({ ...popups, link: false })}
+          >
+            Close
+          </button>
+        </Popup>
+      ) : (
+        <></>
       )}
     </>
   );
