@@ -4,6 +4,7 @@ import Message from "./components/Message";
 import Chat from "./components/Chat";
 import { addChatsListener, createNewChat } from "./handlers";
 import { chat } from "./types";
+import styles from "./App.module.css"
 
 function App() {
   const [chats, setChats] = useState<chat[]>([]);
@@ -14,7 +15,7 @@ function App() {
     return () => unsub();
   }, []);
   return (
-    <>
+    <div>
       {chats.length ? (
         <>
           {chats.map((chat, index) => {
@@ -41,10 +42,10 @@ function App() {
           }}
           onCreate={() => {
             createNewChat("123", { username: "Martin", userId: "1" });
-          }}
+          }}          
         ></HomePage>
       )}
-    </>
+    </div>
   );
 }
 
