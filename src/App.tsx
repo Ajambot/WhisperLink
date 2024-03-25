@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import HomePage from "./components/HomePage.tsx";
 import Message from "./components/Message";
 import Chat from "./components/Chat";
-import { addChatsListener, createNewChat } from "./handlers";
-import { chat } from "./types";
+import Popup from "./components/Popup.tsx";
+import { addChatsListener, createNewChat, joinChat } from "./handlers";
+import { chat, user } from "./types";
 import styles from "./App.module.css"
 
 function App() {
