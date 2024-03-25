@@ -1,18 +1,31 @@
+import { v4 as uuidv4 } from "uuid"
 import { useEffect, useState } from "react";
 import HomePage from "./components/HomePage.tsx";
 import Message from "./components/Message";
 import Chat from "./components/Chat";
-import { addChatsListener, createNewChat } from "./handlers";
-import { chat } from "./types";
+import { addChatsListener, createNewChat, joinChat } from "./handlers";
+import { chat, user } from "./types";
+import Popup from "./components/Popup.tsx";
 
 function App() {
   const [chats, setChats] = useState<chat[]>([]);
   const [openChat, setOpenChat] = useState(0);
+  const [user, setUser] = useState<user>()
+  const [popups, setPopups] = useState({
+    link: false,
+    create: false,
+    join: false,
+  });
 
   useEffect(() => {
-    const unsub = addChatsListener(setChats);
+    const unsub = addChatsListener(user, setChats);
     return () => unsub();
-  }, []);
+  }, [user]);
+  const link = chats.length
+    ? "http://localhost:5000?chatId=" + chats[openChat].sessionId
+    : "";
+  const chatId = chats.length? chats[openChat].sessionId : "";
+
   return (
     <>
       {chats.length ? (
@@ -20,14 +33,14 @@ function App() {
           {chats.map((chat, index) => {
             return (
               <button type="button" onClick={() => setOpenChat(index)}>
-                {chat.sessionId}
+                {chat.chatName}
               </button>
             );
           })}
-          <Chat chatId={chats[openChat].sessionId}>
+          <Chat user={user} chatId={chats[openChat].sessionId}>
             {chats[openChat].messages.map((message) => {
               return (
-                <Message senderName={message.senderName}>
+                <Message senderName={message.sender.username}>
                   {message.text}
                 </Message>
               );
@@ -37,13 +50,90 @@ function App() {
       ) : (
         <HomePage
           onJoin={() => {
-            createNewChat("123", { username: "Martin", userId: "1" });
+            setPopups({...popups, join: true})
           }}
-          onCreate={() => {
-            createNewChat("123", { username: "Martin", userId: "1" });
+          onCreate={async () => {
+            setPopups({...popups, create: true})
           }}
         ></HomePage>
       )}
+      {popups.link ? (
+        <Popup
+          title="Your chat link"
+          closeFn={() => setPopups({ ...popups, link: false })}
+        >
+          <input type="text" readOnly value={link} />
+          <button
+            type="button"
+            onClick={() => navigator.clipboard.writeText(link)}
+          >
+            Copy Join Link
+          </button>
+          <input type="text" readOnly value={chatId} />
+          <button
+            type="button"
+            onClick={() => navigator.clipboard.writeText(chatId)}
+          >
+            Copy Chat ID
+          </button>
+          <button
+            type="button"
+            onClick={() => setPopups({ ...popups, link: false })}
+          >
+            Close
+          </button>
+        </Popup>
+      ) : (
+        <></>
+      )}
+      {popups.create ? (
+        <Popup
+          title="Create a new chat"
+          closeFn={() => setPopups({ ...popups, create: false })}
+          >
+            <form onSubmit={(e)=>{
+              e.preventDefault()
+              const form = new FormData(e.currentTarget);
+              const chatName = form.get("chatName") as string
+              const displayName = form.get("displayName") as string
+              const newUser = {username: displayName, userId: uuidv4()}
+              createNewChat(chatName, uuidv4(), newUser);
+              setUser(newUser)
+              setPopups({...popups, link: true, create: false})
+            }}>
+              <label htmlFor="chatName">Chat Name</label>
+              <input type="text" name="chatName"/>
+              <label htmlFor="displayName">Display Name</label>
+              <input type="text" name="displayName"/>
+              <button type="submit">Create</button>
+            </form>
+        </Popup>)
+        :<></>
+        }
+      {popups.join ? (
+        <Popup
+          title="Join a chat"
+          closeFn={() => setPopups({ ...popups, join: false})}
+          >
+            <form onSubmit={(e)=>{
+              e.preventDefault()
+              const form = new FormData(e.currentTarget);
+              const chatId = form.get("chatId") as string
+              const displayName = form.get("displayName") as string
+              const newUser = {username: displayName, userId: uuidv4()}
+              joinChat(chatId, newUser);
+              setUser(newUser)
+              setPopups({...popups, join: false, link: true})
+            }}>
+              <label htmlFor="chatId">Chat ID</label>
+              <input type="text" name="chatId"/>
+              <label htmlFor="displayName">Display Name</label>
+              <input type="text" name="displayName"/>
+              <button type="submit">Join</button>
+            </form>
+        </Popup>)
+        :<></>
+        }
     </>
   );
 }
