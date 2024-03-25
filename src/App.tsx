@@ -1,19 +1,40 @@
 import { useEffect, useState } from "react";
 import HomePage from "./components/HomePage.tsx";
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import {
+  connectFirestoreEmulator,
+  collection,
+  query,
+  onSnapshot,
+  getFirestore,
+} from "firebase/firestore";
 import Message from "./components/Message";
 import Chat from "./components/Chat";
 import { addChatsListener, createNewChat } from "./handlers";
 import { chat } from "./types";
 import styles from "./App.module.css"
 
+
 function App() {
   const [chats, setChats] = useState<chat[]>([]);
-  const [openChat, setOpenChat] = useState(0);
+  const [openChats, setOpenChats] = useState<number[]>([]);
+  const [messages, setMessages] = useState<message[]>([]);
 
   useEffect(() => {
+    
     const unsub = addChatsListener(setChats);
     return () => unsub();
-  }, []);
+  }, [openChats]);
+
+  const toggleChat = (chatId: number)  => {
+    setOpenChats(currentChats => 
+      currentChats.includes(chatId) ? 
+      currentChats.filter(id => id !== chatId) : 
+      [...currentChats, chatId]
+    );
+  };
+
   return (
     <div>
       {chats.length ? (
@@ -33,14 +54,18 @@ function App() {
                 </Message>
               );
             })}
+
           </Chat>
-        </>
+        ))
       ) : (
         <HomePage
           onJoin={() => {
-            createNewChat("123", { username: "Martin", userId: "1" });
+            toggleChat(chatId);
+            console.log("Join button clicked");
+            createNewChat(ChatIdGen, { username: "Martin", userId: "1" });
           }}
           onCreate={() => {
+
             createNewChat("123", { username: "Martin", userId: "1" });
           }}          
         ></HomePage>
