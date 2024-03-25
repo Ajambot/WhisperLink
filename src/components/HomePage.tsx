@@ -1,10 +1,9 @@
-
 import React from "react";
 import styles from './HomePage.module.css'
 import textStyles from '../buttonText.module.css'
 interface HomePageProps {
-    onJoin: (chatId: number) => void; 
-    onCreate: (chatId: number) => void; 
+  onJoin: () => void;
+  onCreate: () => void;
 }
 
 const HomePage: React.FC<HomePageProps> = ({ onJoin, onCreate }) => {

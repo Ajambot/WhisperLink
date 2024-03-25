@@ -3,9 +3,8 @@ export type message = {
   senderName: string;
   sessionId: string;
   text: string;
-  sentAt: string
-  chatId: number
-}
+  sentAt: string;
+};
 
 export type user = {
   username: string;

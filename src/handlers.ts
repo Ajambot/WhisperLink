@@ -11,7 +11,7 @@ import {
   updateDoc,
   setDoc,
 } from "firebase/firestore";
-import type { message } from "./types";
+import type { chat, user } from "./types";
 import { SetStateAction } from "react";
 import {
   connectStorageEmulator,
@@ -41,22 +41,26 @@ const store = getStorage(app);
 connectFirestoreEmulator(db, "127.0.0.1", 8080); // Remove in production
 connectStorageEmulator(store, "127.0.0.1", 9199); // Remove in production
 
-
-export const addMessageListener = (setMessages: React.Dispatch<SetStateAction<message[]>>) => {
-    const unsub = onSnapshot(collection(db, "Messages"), (querySnapshot) => {
-      const messages:message[] = []
-      querySnapshot.forEach((msg) => {
-        messages.push(msg.data() as message);
-      });
-      messages.sort((a, b) => (a.sentAt > b.sentAt) ? 1 : -1);
-      setMessages(messages);
-    })
+export const addChatsListener = (
+  setChats: React.Dispatch<SetStateAction<chat[]>>
+) => {
+  const unsub = onSnapshot(collection(db, "Chats"), (querySnapshot) => {
+    const chats: chat[] = [];
+    querySnapshot.forEach((chat) => {
+      chats.push(chat.data() as chat);
+      chats[chats.length - 1].sessionId = chat.id;
+    });
+    chats.forEach((chat) =>
+      chat.messages.sort((a, b) => (a.sentAt > b.sentAt ? 1 : -1))
+    );
+    setChats(chats);
+  });
 
   return () => unsub();
 };
 
-export const createNewChat = (chatId: number, user: user) => {
-  void (async (chatId: number, user: user) => {
+export const createNewChat = (chatId: string, user: user) => {
+  void (async (chatId: string, user: user) => {
     await setDoc(doc(db, "Chats", chatId), {
       createdAt: new Date(),
       users: [user],
@@ -66,11 +70,11 @@ export const createNewChat = (chatId: number, user: user) => {
 };
 
 export const sendMessage = (
-  chatId: number,
+  chatId: string,
   message: string,
   file: File | undefined
 ) => {
-  void (async (chatId: number, message: string, file: File | undefined) => {
+  void (async (chatId: string, message: string, file: File | undefined) => {
     let fileLink;
     if (file) {
       const extension = file.name.split(".").pop();

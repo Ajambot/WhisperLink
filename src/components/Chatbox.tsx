@@ -2,13 +2,13 @@ import { useState } from "react";
 import { sendMessage } from "../handlers";
 
 interface Props {
-  chatId: number; 
+  chatId: string;
 }
 
-const Chatbox = () => {
-    const [ msg, setMsg ] = useState<string>("")
-    const [ file, setFile ] = useState<File>()
-  
+const Chatbox = ({ chatId }: Props) => {
+  const [msg, setMsg] = useState<string>("");
+  const [file, setFile] = useState<File>();
+
   return (
     <form
       className="chatroom-chatbox"
