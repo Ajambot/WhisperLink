@@ -88,12 +88,6 @@ function App() {
           >
             Copy Chat ID
           </button>
-          <button
-            type="button"
-            onClick={() => setPopups({ ...popups, link: false })}
-          >
-            Close
-          </button>
         </Popup>
       ) : (
         <></>

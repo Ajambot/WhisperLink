@@ -16,12 +16,6 @@ const Popup = ({ title, children, closeFn }: Props) => {
         </button>
       </div>
       {children}
-          <button
-            type="button"
-            onClick={closeFn}
-          >
-            Close
-          </button>
     </div>
   );
 };
