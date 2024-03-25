@@ -34,8 +34,8 @@ const Chatbox = () => {
           if (!e.target.files) return;
           const file = e.target.files[0];
           setFile(file);
-        }}
-      />
+        }}>
+      </input>
       <button className="btn-send" type="submit">
         Send Message
       </button>

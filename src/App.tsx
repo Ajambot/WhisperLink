@@ -11,9 +11,10 @@ import {
 } from "firebase/firestore";
 import Message from "./components/Message";
 import Chat from "./components/Chat";
-import { addChatsListener, createNewChat, addMessageListener } from "./handlers";
-import type { message, chat } from "./types";
-import ChatIdGen from "./components/ChatIdGenerator.ts";
+import { addChatsListener, createNewChat } from "./handlers";
+import { chat } from "./types";
+import styles from "./App.module.css"
+
 
 function App() {
   const [chats, setChats] = useState<chat[]>([]);
@@ -35,19 +36,25 @@ function App() {
   };
 
   return (
-    <>
-      {openChats.length > 0 ? (
-        openChats.map((chatId) => (
-          <Chat
-            key={chatId}
-            chatId={chatId}
-            onClose={() => toggleChat(chatId)}
-          >
-            {messages.filter(msg => msg.chatId === chatId).map((message) => (
-              <Message key={message.sentAt.toString()} senderName={message.senderName} chatId={chatId}>
-                {message.text}
-              </Message>
-            ))}
+    <div>
+      {chats.length ? (
+        <>
+          {chats.map((chat, index) => {
+            return (
+              <button type="button" onClick={() => setOpenChat(index)}>
+                {chat.sessionId}
+              </button>
+            );
+          })}
+          <Chat chatId={chats[openChat].sessionId}>
+            {chats[openChat].messages.map((message) => {
+              return (
+                <Message senderName={message.senderName}>
+                  {message.text}
+                </Message>
+              );
+            })}
+
           </Chat>
         ))
       ) : (
@@ -58,13 +65,12 @@ function App() {
             createNewChat(ChatIdGen, { username: "Martin", userId: "1" });
           }}
           onCreate={() => {
-            setOpenChats([...openChats, chatId]);
-            console.log("Create button clicked");
-            createNewChat(ChatIdGen, { username: "Martin", userId: "1" });
-          }}
+
+            createNewChat("123", { username: "Martin", userId: "1" });
+          }}          
         ></HomePage>
       )}
-    </>
+    </div>
   );
 }
 
