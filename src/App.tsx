@@ -7,6 +7,7 @@ import { addChatsListener, createNewChat, joinChat } from "./handlers";
 import { chat, user } from "./types";
 import Popup from "./components/Popup.tsx";
 import styles from "./App.module.css"
+import buttonStyles from "./buttonText.module.css"
 
 function App() {
   const [chats, setChats] = useState<chat[]>([]);
@@ -45,7 +46,7 @@ function App() {
         <>
           {chats.map((chat, index) => {
             return (
-              <button type="button" onClick={() => setOpenChat(index)}>
+              <button className={buttonStyles.textContainer} type="button" onClick={() => setOpenChat(index)}>
                 {chat.chatName}
               </button>
             );
@@ -76,20 +77,20 @@ function App() {
           closeFn={() => setPopups({ ...popups, link: false })}
         >
           <input type="text" readOnly value={link} />
-          <button
+          <button className={buttonStyles.textContainer}
             type="button"
             onClick={() => navigator.clipboard.writeText(link)}
           >
             Copy Join Link
           </button>
           <input type="text" readOnly value={chatId} />
-          <button
+          <button className={buttonStyles.textContainer}
             type="button"
             onClick={() => navigator.clipboard.writeText(chatId)}
           >
             Copy Chat ID
           </button>
-          <button
+          <button className={buttonStyles.textContainer}
             type="button"
             onClick={() => setPopups({ ...popups, link: false })}
           >
@@ -118,7 +119,7 @@ function App() {
               <input type="text" name="chatName"/>
               <label htmlFor="displayName">Display Name</label>
               <input type="text" name="displayName"/>
-              <button type="submit">Create</button>
+              <button className={buttonStyles.textContainer} type="submit">Create</button>
             </form>
         </Popup>)
         :<></>
@@ -142,7 +143,7 @@ function App() {
               <input type="text" value={code || ""} name="chatId"/>
               <label htmlFor="displayName">Display Name</label>
               <input type="text" name="displayName"/>
-              <button type="submit">Join</button>
+              <button className={buttonStyles.textContainer} type="submit">Join</button>
             </form>
         </Popup>)
         :<></>

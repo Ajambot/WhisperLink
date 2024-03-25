@@ -1,0 +1,21 @@
+.popContainer {
+    font-size: 20px; /* Increase the font size */
+    padding: 15px 30px; /* Increase padding to make button larger */
+    margin: 5px; /* Adjust as needed */
+    font-family: Arial, sans-serif;
+    color: #18023b;
+    background-color: #1dade1;
+    padding: '10px 20px';
+    border-radius: '5px';
+    justify-content: left;
+  }
+
+  .bodyContainer
+  {
+    display: flex;
+    justify-content: center; /* Adjust this as needed */
+    gap: 40px; /* Adjust the space between the buttons */
+    margin-top: 60px; /* Space between the text and the buttons */
+    justify-content: center; /* Center items horizontally */
+    text-align: center; /* Center text inside the container */
+  }
