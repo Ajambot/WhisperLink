@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { sendMessage } from "../handlers";
+import { user } from "../types";
 
 interface Props {
   chatId: string;
+  user: user | undefined
 }
 
-const Chatbox = ({ chatId }: Props) => {
+const Chatbox = ({ user, chatId }: Props) => {
   const [msg, setMsg] = useState<string>("");
   const [file, setFile] = useState<File>();
 
@@ -14,7 +16,8 @@ const Chatbox = ({ chatId }: Props) => {
       className="chatroom-chatbox"
       onSubmit={(e) => {
         e.preventDefault();
-        sendMessage(chatId, msg, file);
+        if(!user) return
+        sendMessage(chatId, user, msg, file);
         setMsg("");
         setFile(undefined);
         e.currentTarget.reset();
