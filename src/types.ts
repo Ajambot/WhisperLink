@@ -15,6 +15,6 @@ export type chat = {
   chatName: string;
   sessionId: string;
   createdAt: string;
-  users: string;
+  users: user[];
   messages: message[];
 };

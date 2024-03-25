@@ -12,6 +12,7 @@ import {
   setDoc,
   query,
   where,
+  arrayRemove,
 } from "firebase/firestore";
 import type { chat, user} from "./types";
 import { SetStateAction } from "react";
@@ -79,6 +80,14 @@ export const joinChat = (chatId: string, user: user) => {
   void (async (chatId: string, user: user) => {
     await updateDoc(doc(db, "Chats", chatId), {
       users: arrayUnion(user),
+    });
+  })(chatId, user);
+};
+
+export const leaveChat = (chatId: string, user: user) => {
+  void (async (chatId: string, user: user) => {
+    await updateDoc(doc(db, "Chats", chatId), {
+      users: arrayRemove(user),
     });
   })(chatId, user);
 };
