@@ -10,10 +10,8 @@ import {
   arrayUnion,
   updateDoc,
   setDoc,
-  query,
-  where,
 } from "firebase/firestore";
-import type { chat, user} from "./types";
+import type { chat, user } from "./types";
 import { SetStateAction } from "react";
 import {
   connectStorageEmulator,
@@ -44,12 +42,9 @@ connectFirestoreEmulator(db, "127.0.0.1", 8080); // Remove in production
 connectStorageEmulator(store, "127.0.0.1", 9199); // Remove in production
 
 export const addChatsListener = (
-  user: user | undefined,
   setChats: React.Dispatch<SetStateAction<chat[]>>
 ) => {
-  if(!user) user={username:"", userId:""};
-  const q = query(collection(db, "Chats"), where("users", "array-contains", user))
-  const unsub = onSnapshot(q, (querySnapshot) => {
+  const unsub = onSnapshot(collection(db, "Chats"), (querySnapshot) => {
     const chats: chat[] = [];
     querySnapshot.forEach((chat) => {
       chats.push(chat.data() as chat);
@@ -64,10 +59,9 @@ export const addChatsListener = (
   return () => unsub();
 };
 
-export const createNewChat = (chatName: string, chatId: string, user: user) => {
+export const createNewChat = (chatId: string, user: user) => {
   void (async (chatId: string, user: user) => {
     await setDoc(doc(db, "Chats", chatId), {
-      chatName: chatName,
       createdAt: new Date(),
       users: [user],
       messages: [],
@@ -75,21 +69,12 @@ export const createNewChat = (chatName: string, chatId: string, user: user) => {
   })(chatId, user);
 };
 
-export const joinChat = (chatId: string, user: user) => {
-  void (async (chatId: string, user: user) => {
-    await updateDoc(doc(db, "Chats", chatId), {
-      users: arrayUnion(user),
-    });
-  })(chatId, user);
-};
-
 export const sendMessage = (
   chatId: string,
-  sender: user,
   message: string,
   file: File | undefined
 ) => {
-  void (async (chatId: string, sender: user, message: string, file: File | undefined) => {
+  void (async (chatId: string, message: string, file: File | undefined) => {
     let fileLink;
     if (file) {
       const extension = file.name.split(".").pop();
@@ -100,7 +85,7 @@ export const sendMessage = (
       );
     }
     const newMessage = {
-      sender: sender,
+      senderName: "Martin",
       text: message,
       fileLink: fileLink || null,
       sessionId: "",
@@ -109,5 +94,5 @@ export const sendMessage = (
     await updateDoc(doc(db, "Chats", chatId), {
       messages: arrayUnion(newMessage),
     });
-  })(chatId, sender, message, file);
+  })(chatId, message, file);
 };

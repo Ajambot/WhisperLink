@@ -1,13 +1,11 @@
 import { useState } from "react";
 import { sendMessage } from "../handlers";
-import { user } from "../types";
 
 interface Props {
   chatId: string;
-  user: user | undefined
 }
 
-const Chatbox = ({ user, chatId }: Props) => {
+const Chatbox = ({ chatId }: Props) => {
   const [msg, setMsg] = useState<string>("");
   const [file, setFile] = useState<File>();
 
@@ -16,8 +14,7 @@ const Chatbox = ({ user, chatId }: Props) => {
       className="chatroom-chatbox"
       onSubmit={(e) => {
         e.preventDefault();
-        if(!user) return
-        sendMessage(chatId, user, msg, file);
+        sendMessage(chatId, msg, file);
         setMsg("");
         setFile(undefined);
         e.currentTarget.reset();
@@ -37,8 +34,8 @@ const Chatbox = ({ user, chatId }: Props) => {
           if (!e.target.files) return;
           const file = e.target.files[0];
           setFile(file);
-        }}
-      />
+        }}>
+      </input>
       <button className="btn-send" type="submit">
         Send Message
       </button>

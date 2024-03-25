@@ -1,14 +1,12 @@
 import React from "react";
 import Chatbox from "./Chatbox";
-import { user } from "../types";
 
 interface Props {
   children: React.ReactNode;
   chatId: string;
-  user: user | undefined
 }
 
-const Chat = ({ user, children, chatId }: Props) => {
+const Chat = ({ children, chatId }: Props) => {
   return (
     <div>
       <div className="chat-header">
@@ -18,7 +16,7 @@ const Chat = ({ user, children, chatId }: Props) => {
         </button>
       </div>
       <div className="chatroom-main">{children}</div>
-      <Chatbox user={user} chatId={chatId} />
+      <Chatbox chatId={chatId} />
     </div>
   );
 };
