@@ -16,15 +16,27 @@ function App() {
     create: false,
     join: false,
   });
+  const [code, setCode] = useState("")
 
   useEffect(() => {
     const unsub = addChatsListener(user, setChats);
     return () => unsub();
   }, [user]);
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const chatId = urlParams.get('chatId')
+    if (chatId) {
+      setPopups({create: false, link: false, join: true})
+      setCode(chatId)
+    }
+  },[])
+
   const link = chats.length
     ? "http://localhost:5000?chatId=" + chats[openChat].sessionId
     : "";
   const chatId = chats.length? chats[openChat].sessionId : "";
+
 
   return (
     <>
@@ -126,7 +138,7 @@ function App() {
               setPopups({...popups, join: false, link: true})
             }}>
               <label htmlFor="chatId">Chat ID</label>
-              <input type="text" name="chatId"/>
+              <input type="text" value={code || ""} name="chatId"/>
               <label htmlFor="displayName">Display Name</label>
               <input type="text" name="displayName"/>
               <button type="submit">Join</button>
