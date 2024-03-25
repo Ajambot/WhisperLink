@@ -11,6 +11,7 @@ import {
 } from "./handlers";
 import { chat, user } from "./types";
 import Popup from "./components/Popup.tsx";
+import buttonStyles from "./buttonText.module.css"
 
 function App() {
   const [chats, setChats] = useState<chat[]>([]);
@@ -58,7 +59,7 @@ function App() {
           <div className="chat-navbar">
             {chats.map((chat, index) => {
               return (
-                <button type="button" onClick={() => setOpenChat(index)}>
+                <button className={buttonStyles.textContainer} type="button" onClick={() => setOpenChat(index)}>
                   {chat.chatName}
                 </button>
               );
@@ -166,14 +167,14 @@ function App() {
           }
         >
           <input type="text" readOnly value={link} />
-          <button
+          <button className={buttonStyles.textContainer}
             type="button"
             onClick={() => navigator.clipboard.writeText(link)}
           >
             Copy Join Link
           </button>
           <input type="text" readOnly value={chatId} />
-          <button
+          <button className={buttonStyles.textContainer}
             type="button"
             onClick={() => navigator.clipboard.writeText(chatId)}
           >

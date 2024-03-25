@@ -1,5 +1,5 @@
 import React from "react";
-
+import textStyles from './Popup.module.css'
 interface Props {
   title: string;
   children: React.ReactNode;
@@ -11,8 +11,8 @@ const Popup = ({ title, children, closeFn }: Props) => {
     <div className="popup link">
       <div className="header">
         <h1>{title}</h1>
-        <button className="close-btn" onClick={closeFn}>
-          Close Popup
+        <button className ={textStyles.popContainer} onClick={closeFn}>
+          Close
         </button>
       </div>
       {children}
