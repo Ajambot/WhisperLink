@@ -11,3 +11,15 @@
   border-radius: '5px';
   cursor: 'pointer';
 }
+
+.popupForm {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  text-align: left;
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+}

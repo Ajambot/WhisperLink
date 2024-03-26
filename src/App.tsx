@@ -13,6 +13,7 @@ import { chat, user } from "./types";
 import Popup from "./components/Popup.tsx";
 import buttonStyles from "./buttonText.module.css"
 import mainStyles from "./mainButtonText.module.css"
+import main from "./App.module.css"
 
 function App() {
   const [chats, setChats] = useState<chat[]>([]);
@@ -167,20 +168,26 @@ function App() {
             })
           }
         >
-          <input type="text" readOnly value={link} />
-          <button className={buttonStyles.textContainer}
-            type="button"
-            onClick={() => navigator.clipboard.writeText(link)}
-          >
-            Copy Join Link
-          </button>
-          <input type="text" readOnly value={chatId} />
-          <button className={buttonStyles.textContainer}
-            type="button"
-            onClick={() => navigator.clipboard.writeText(chatId)}
-          >
-            Copy Chat ID
-          </button>
+          <div className={main.popupForm}>
+            <div style={{display: 'flex'}}>
+              <input type="text" style={{ padding: '12px', width: 'auto', flexGrow:'2'}} readOnly value={link} />
+              <button className={buttonStyles.textContainer}
+                type="button"
+                onClick={() => navigator.clipboard.writeText(link)}
+              >
+                Copy Join Link
+              </button>
+            </div>
+            <div style={{display: 'flex'}}>
+              <input type="text" style={{ padding: '12px', width: 'auto', flexGrow:'2'}} readOnly value={chatId} />
+              <button className={buttonStyles.textContainer}
+                type="button"
+                onClick={() => navigator.clipboard.writeText(chatId)}
+              >
+                Copy Chat ID
+              </button>
+            </div>
+          </div>
         </Popup>
       ) : (
         <></>
@@ -198,6 +205,7 @@ function App() {
           }
         >
           <form
+            className={main.popupForm}
             onSubmit={(e) => {
               e.preventDefault();
               const form = new FormData(e.currentTarget);
@@ -217,14 +225,18 @@ function App() {
               });
             }}
           >
-            <label htmlFor="chatName" style={{ padding: '12px' , fontSize: '22px'}}>Chat Name</label>
-            <input type="text" style={{ padding: '12px' , marginRight: '50px'}} name="chatName"/>
-            <label htmlFor="displayName" style={{ padding: '12px' , fontSize: '22px'}}>Display Name</label>
-            <input style={{ padding: '12px' }}
-              type="text"
-              defaultValue={user?.username || ""}
-              name="displayName"
-            />
+            <div className={main.formField}>
+              <label htmlFor="chatName" style={{ fontSize: '22px'}}>Chat Name</label>
+              <input type="text" style={{ padding: '12px'}} name="chatName"/>
+            </div>
+            <div className={main.formField}>
+              <label htmlFor="displayName" style={{ fontSize: '22px'}}>Display Name</label>
+              <input style={{ padding: '12px' }}
+                type="text"
+                defaultValue={user?.username || ""}
+                name="displayName"
+              />
+            </div>
             <button type="submit" className={mainStyles.textContainer}>Create</button>
           </form>
         </Popup>
@@ -244,6 +256,7 @@ function App() {
           }
         >
           <form
+            className={main.popupForm}
             onSubmit={(e) => {
               e.preventDefault();
               const form = new FormData(e.currentTarget);
@@ -263,14 +276,18 @@ function App() {
               });
             }}
           >
-            <label htmlFor="chatId" style={{ padding: '12px', fontSize: '22px' }}>Chat ID</label>
-            <input type="text" defaultValue={code || "" } style={{ padding: '12px', marginRight: '50px'  }} name="chatId" />
-            <label htmlFor="displayName" style={{ padding: '12px' , fontSize: '22px'}}>Display Name</label>
-            <input style={{ padding: '12px' }}
-              type="text"
-              defaultValue={user?.username || ""}
-              name="displayName"
-            />
+            <div className={main.formField}>
+              <label htmlFor="chatId" style={{ fontSize: '22px', textAlign: "left" }}>Chat ID</label>
+              <input type="text" defaultValue={code || "" } style={{ padding: '12px'}} name="chatId" />
+            </div>
+            <div className={main.formField}>
+              <label htmlFor="displayName" style={{ fontSize: '22px', textAlign: "left"}}>Display Name</label>
+              <input style={{ padding: '12px'}}
+                type="text"
+                defaultValue={user?.username || ""}
+                name="displayName"
+              />
+            </div>
             <button type="submit" className={mainStyles.textContainer}>Join</button>
           </form>
         </Popup>
