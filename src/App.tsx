@@ -70,7 +70,6 @@ function App() {
         <>
           <div className="chat-navbar">
           <Chatbar chats={chats} openChat={openChat} setOpenChat={setOpenChat} leaveChat={closeChat}  setPopups={setPopups}/>
-          
             {popups.newChat ? (
               <Popup
                 title="New Chat"
