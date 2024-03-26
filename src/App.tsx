@@ -69,18 +69,18 @@ function App() {
 
   const closeChat = () => {
     if (user && chats.length)
-     {
-      leaveChat(chats[openChat].sessionId, user);
-      const updatedChats = chats.filter((_, index) => index !== openChat); // Remove the active chat from the array.
-      setChats(updatedChats); // Update the chats array without the removed chat.
-       // Adjust the openChat index if necessary.
-    if (openChat >= updatedChats.length && updatedChats.length !== 0) {
-      setOpenChat(updatedChats.length - 1);
-    } else if (updatedChats.length === 0) {
-      setOpenChat(-1); // Set to -1 or another placeholder if no chats remain.
-    }
-      setPopups({ link: false, create: false, join: false, newChat: false });
-    }
+    {
+     leaveChat(chats[openChat].sessionId, user);
+     const updatedChats = chats.filter((_, index) => index !== openChat); // Remove the active chat from the array.
+     setChats(updatedChats); // Update the chats array without the removed chat.
+      // Adjust the openChat index if necessary.
+   if (openChat >= updatedChats.length && updatedChats.length !== 0) {
+     setOpenChat(updatedChats.length - 1);
+   } else if (updatedChats.length === 0) {
+     setOpenChat(-1); // Set to -1 or another placeholder if no chats remain.
+   }
+     setPopups({ link: false, create: false, join: false, newChat: false });
+   }
   };
 
   return (
@@ -88,7 +88,7 @@ function App() {
       {chats.length ? (
         <>
           <div className="chat-navbar">
-          <Chatbar chats={chats} openChat={openChat} setOpenChat={setOpenChat} leaveChat={closeChat} setPopups={setPopups}/>
+          <Chatbar chats={chats} openChat={openChat} setOpenChat={setOpenChat} leaveChat={closeChat}  setPopups={setPopups}/>
           
             {popups.newChat ? (
               <Popup
@@ -134,7 +134,7 @@ function App() {
             )}
           </div>
           <Chat
-            leaveChat={closeChat}
+            leaveChat={() =>closeChat}
             user={user}
             chatId={chats[openChat].sessionId}
           >
