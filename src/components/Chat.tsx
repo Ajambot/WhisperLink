@@ -1,6 +1,7 @@
 import React from "react";
 import Chatbox from "./Chatbox";
 import { user } from "../types";
+import Styles from "../buttonText.module.css"
 
 interface Props {
   children: React.ReactNode;
@@ -13,7 +14,7 @@ const Chat = ({ user, children, chatId }: Props) => {
     <div>
       <div className="chat-header">
         <a href="#">Chat ID</a>
-        <button type="button" className="chat-close" aria-label="close">
+        <button className={Styles.textContainer} type="button" aria-label="close">
           Close chat
         </button>
       </div>

@@ -6,7 +6,9 @@
     color: #2c046d;
     background-color: beige;
     justify-content: center; /* Center items horizontally */
-    padding: '10px 20px';
-    border-radius: '5px';
-    cursor: 'pointer';
+    cursor: pointer;
+    border-radius: 10px; /* Adjust the value to change the roundness */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
   }

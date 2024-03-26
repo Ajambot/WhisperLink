@@ -90,8 +90,7 @@ function App() {
           >
             Copy Chat ID
           </button>
-          <button className={buttonStyles.textContainer}
-            type="button"
+          <button className={buttonStyles.textContainer} type="button"
             onClick={() => setPopups({ ...popups, link: false })}
           >
             Close
