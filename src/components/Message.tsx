@@ -5,7 +5,6 @@ interface MessageProps {
   senderName: string;
   children: React.ReactNode;
   isSender?: boolean; // Make isSender optional if not all parent components will pass it
-  
 }
 
 const Message = ({ children, senderName, isSender }: MessageProps) => {

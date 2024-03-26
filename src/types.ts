@@ -1,5 +1,5 @@
 export type message = {
-  imageLink: string;
+  file: { link: string; type: "image" | "other" } | undefined;
   sender: user;
   sessionId: string;
   text: string;
@@ -7,9 +7,9 @@ export type message = {
 };
 
 export type user = {
-  username: string,
-  userId: string
-}
+  username: string;
+  userId: string;
+};
 
 export type chat = {
   chatName: string;
