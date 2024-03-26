@@ -8,9 +8,9 @@ interface HomePageProps {
 
 const HomePage: React.FC<HomePageProps> = ({ onJoin, onCreate }) => {
   return (
-    <div className="homePage">
+    <div className={styles.titleContainer}>
       <div className={styles.message}> WhisperLink</div>
-      <div className={styles.buttonContainer}>  
+      <div className={styles.buttonContainer}>
         <button className={textStyles.textContainer} onClick={onJoin}>Join Chatroom</button>
         <button className={textStyles.textContainer} onClick={onCreate}>Create Chatroom</button>
       </div>

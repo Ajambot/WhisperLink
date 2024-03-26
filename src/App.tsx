@@ -26,23 +26,6 @@ function App() {
   });
   const [code, setCode] = useState("");
 
-  const openJoinPopup = () => {
-    setPopups({
-      create: false,
-      link: false,
-      join: true,
-      newChat: false,
-    });
-  };
-
-  const openCreatePopup = () => {
-    setPopups({
-      create: true,
-      link: false,
-      join: false,
-      newChat: false,
-    });
-  };
   useEffect(() => {
     const unsub = addChatsListener(user, setChats);
     return () => unsub();
@@ -242,7 +225,7 @@ function App() {
               defaultValue={user?.username || ""}
               name="displayName"
             />
-            <button type="submit" style={{ padding: '9px', fontSize: '18px' }}>Create</button>
+            <button type="submit" className={mainStyles.textContainer}>Create</button>
           </form>
         </Popup>
       ) : (
@@ -288,7 +271,7 @@ function App() {
               defaultValue={user?.username || ""}
               name="displayName"
             />
-            <button type="submit" style={{ padding: '9px', fontSize: '18px' }}>Join</button>
+            <button type="submit" className={mainStyles.textContainer}>Join</button>
           </form>
         </Popup>
       ) : (

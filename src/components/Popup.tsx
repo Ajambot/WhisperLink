@@ -13,7 +13,7 @@ const Popup = ({ title, children, closeFn }: Props) => {
         <h1>{title}</h1>
         {children}
         <button className ={textStyles.buttonContainer} onClick={closeFn}>
-          Close
+          X
         </button>
       </div>
     </div>
