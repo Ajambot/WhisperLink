@@ -1,5 +1,5 @@
 import React from "react";
-
+import textStyles from './Popup.module.css'
 interface Props {
   title: string;
   children: React.ReactNode;
@@ -9,19 +9,13 @@ interface Props {
 const Popup = ({ title, children, closeFn }: Props) => {
   return (
     <div className="popup link">
-      <div className="header">
+      <div className ={textStyles.bodyContainer}>
         <h1>{title}</h1>
-        <button className="close-btn" onClick={closeFn}>
-          Close Popup
+        {children}
+        <button className ={textStyles.buttonContainer} onClick={closeFn}>
+          Close
         </button>
       </div>
-      {children}
-          <button
-            type="button"
-            onClick={closeFn}
-          >
-            Close
-          </button>
     </div>
   );
 };

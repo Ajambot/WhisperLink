@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { sendMessage } from "../handlers";
 import { user } from "../types";
+import Styles from "../buttonText.module.css"
 
 interface Props {
   chatId: string;
@@ -23,7 +24,7 @@ const Chatbox = ({ user, chatId }: Props) => {
         e.currentTarget.reset();
       }}
     >
-      <input
+      <input style={{fontSize: '15px', fontFamily: 'Arial'}}
         type="text"
         placeholder="Type a message"
         className="chatbox-input"
@@ -39,7 +40,7 @@ const Chatbox = ({ user, chatId }: Props) => {
           setFile(file);
         }}
       />
-      <button className="btn-send" type="submit">
+      <button className={Styles.textContainer} type="submit">
         Send Message
       </button>
     </form>
