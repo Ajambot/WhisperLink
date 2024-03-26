@@ -11,8 +11,8 @@ const HomePage: React.FC<HomePageProps> = ({ onJoin, onCreate }) => {
     <div className="homePage">
       <div className={styles.message}> WhisperLink</div>
       <div className={styles.buttonContainer}>  
-        <button className={textStyles.textContainer} onClick={onJoin}>Join a Chatroom</button>
-        <button className={textStyles.textContainer} onClick={onCreate}>Create a Chatroom</button>
+        <button className={textStyles.textContainer} onClick={onJoin}>Join Chatroom</button>
+        <button className={textStyles.textContainer} onClick={onCreate}>Create Chatroom</button>
       </div>
     </div>
   );

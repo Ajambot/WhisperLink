@@ -3,7 +3,7 @@ body,
 .homeContainer {
   margin: 0;
   padding: 0;
-  background-color: #82b7f8;
+  background-color: #011d1b;
   height: 100px;
   display: flex;
   justify-content: center; /* Center items horizontally */
@@ -48,7 +48,7 @@ body,
     transform: scale(1);
   }
   100% {
-    transform: scale(1.1);
+    transform: scale(1);
   }
 }
 
