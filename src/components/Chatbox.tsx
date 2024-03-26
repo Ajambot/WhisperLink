@@ -14,7 +14,7 @@ const Chatbox = ({ chatId }: Props) => {
       className="chatroom-chatbox"
       onSubmit={(e) => {
         e.preventDefault();
-        sendMessage(chatId, msg, file);
+        sendMessage(chatId, msg, file, "senderName");
         setMsg("");
         setFile(undefined);
         e.currentTarget.reset();

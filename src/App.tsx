@@ -26,13 +26,14 @@ function App() {
             );
           })}
           <Chat chatId={chats[openChat].sessionId}>
-            {chats[openChat].messages.map((message) => {
-              return (
-                <Message senderName={message.senderName}>
-                  {message.text}
-                </Message>
-              );
-            })}
+          {chats[openChat].messages.map((message) => {
+  const isSender = message.senderName === "Current User's Name"; // Adjust this condition as needed
+  return (
+    <Message senderName={message.senderName} isSender={isSender}>
+      {message.text}
+    </Message>
+  );
+})}
           </Chat>
         </>
       ) : (
@@ -41,7 +42,7 @@ function App() {
             createNewChat("123", { username: "Martin", userId: "1" });
           }}
           onCreate={() => {
-            createNewChat("123", { username: "Martin", userId: "1" });
+            createNewChat("321", { username: "Amit", userId: "2" });
           }}          
         ></HomePage>
       )}

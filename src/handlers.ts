@@ -72,7 +72,8 @@ export const createNewChat = (chatId: string, user: user) => {
 export const sendMessage = (
   chatId: string,
   message: string,
-  file: File | undefined
+  file: File | undefined,
+  senderName: string
 ) => {
   void (async (chatId: string, message: string, file: File | undefined) => {
     let fileLink;
@@ -85,7 +86,7 @@ export const sendMessage = (
       );
     }
     const newMessage = {
-      senderName: "Martin",
+      senderName: senderName, 
       text: message,
       fileLink: fileLink || null,
       sessionId: "",
