@@ -127,7 +127,7 @@ function App() {
           >
             {chats[openChat].messages.map((message) => {
               return (
-                <Message senderName={message.sender.username}>
+                <Message isSender = {message.sender.userId === user?.userId } senderName={message.sender.username}>
                   {message.text}
                 </Message>
               );
