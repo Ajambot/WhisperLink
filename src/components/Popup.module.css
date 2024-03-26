@@ -1,6 +1,7 @@
 .buttonContainer {
     font-size: 15px; /* Increase the font size */
     padding: 10px 10px; /* Increase padding to make button larger */
+    text-transform: uppercase;
     margin-top: 150px;
     font-family: Arial, sans-serif;
     color: #2c046d;
@@ -21,7 +22,7 @@
     color: #000000;
     text-shadow: 1px 1px 1px #ff730080; /* Adds shadow */
     gap: 40px; /* Adjust the space between the buttons */
-    margin-top: 60px; /* Space between the text and the buttons */
+    text-transform: uppercase;
     text-align: center; /* Center text inside the container */
     top: 50%;
     left: 50%;
