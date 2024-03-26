@@ -6,12 +6,13 @@ import Chat from "./components/Chat";
 import {
   addChatsListener,
   createNewChat,
+  downloadFile,
   joinChat,
   leaveChat,
 } from "./handlers";
 import { chat, user } from "./types";
 import Popup from "./components/Popup.tsx";
-import buttonStyles from "./buttonText.module.css"
+import buttonStyles from "./buttonText.module.css";
 
 function App() {
   const [chats, setChats] = useState<chat[]>([]);
@@ -47,7 +48,8 @@ function App() {
   const closeChat = () => {
     if (user) {
       leaveChat(chats[openChat].sessionId, user);
-      if(openChat==chats.length-1 && openChat>0) setOpenChat(openChat-1)
+      if (openChat == chats.length - 1 && openChat > 0)
+        setOpenChat(openChat - 1);
       setPopups({ link: false, create: false, join: false, newChat: false });
     }
   };
@@ -59,7 +61,11 @@ function App() {
           <div className="chat-navbar">
             {chats.map((chat, index) => {
               return (
-                <button className={buttonStyles.textContainer} type="button" onClick={() => setOpenChat(index)}>
+                <button
+                  className={buttonStyles.textContainer}
+                  type="button"
+                  onClick={() => setOpenChat(index)}
+                >
                   {chat.chatName}
                 </button>
               );
@@ -127,7 +133,15 @@ function App() {
           >
             {chats[openChat].messages.map((message) => {
               return (
-                <Message isSender = {message.sender.userId === user?.userId } senderName={message.sender.username}>
+                <Message
+                  isSender={message.sender.userId === user?.userId}
+                  senderName={message.sender.username}
+                >
+                  {message.file?.type==="image" ? (
+                    <img src={message.file?.link} />
+                  ) : (
+                    <button onClick={() => downloadFile(message.file?.link)}>Download {message.file?.link}</button>
+                  )}
                   {message.text}
                 </Message>
               );
@@ -167,14 +181,16 @@ function App() {
           }
         >
           <input type="text" readOnly value={link} />
-          <button className={buttonStyles.textContainer}
+          <button
+            className={buttonStyles.textContainer}
             type="button"
             onClick={() => navigator.clipboard.writeText(link)}
           >
             Copy Join Link
           </button>
           <input type="text" readOnly value={chatId} />
-          <button className={buttonStyles.textContainer}
+          <button
+            className={buttonStyles.textContainer}
             type="button"
             onClick={() => navigator.clipboard.writeText(chatId)}
           >
