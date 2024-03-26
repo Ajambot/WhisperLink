@@ -6,15 +6,19 @@ import Styles from "../buttonText.module.css"
 interface Props {
   children: React.ReactNode;
   chatId: string;
-  user: user | undefined
+  user: user | undefined;
+  leaveChat: () => void
 }
 
-const Chat = ({ user, children, chatId }: Props) => {
+const Chat = ({ user, children, chatId, leaveChat }: Props) => {
   return (
     <div>
       <div className="chat-header">
-        <a href="#">Chat ID</a>
-        <button className={Styles.textContainer} type="button" aria-label="close">
+        <button className={Styles.textContainer}
+          onClick={leaveChat}
+          type="button"
+          aria-label="close"
+        >
           Close chat
         </button>
       </div>
