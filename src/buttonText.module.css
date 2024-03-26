@@ -12,3 +12,7 @@
     text-decoration: none;
     display: inline-block;
   }
+
+  .textContainer svg{
+    margin-right: 5px;
+  }

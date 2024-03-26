@@ -1,0 +1,56 @@
+.messageContainer {
+  display: flex;
+  margin-bottom: 10px;
+  flex-direction: column;
+}
+
+.sentMessage {
+  align-self: flex-end;
+  background-color: #dcf8c6; /* Light green background for sent messages */
+  border-radius: 20px;
+  padding: 10px;
+  max-width: 60%;
+  margin: 5px;
+  word-wrap: break-word;
+}
+
+.receivedMessage {
+  align-self: flex-start;
+  background-color: #f0f0f0; /* Light gray background for received messages */
+  border-radius: 20px;
+  padding: 10px;
+  max-width: 60%;
+  margin: 5px;
+  word-wrap: break-word;
+}
+
+.senderName {
+  font-size: 0.85em;
+  margin-bottom: 4px;
+  color: #666;
+  font-weight: bold;
+}
+
+/* Message.module.css */
+@media (max-width: 600px) {
+  .sentMessage, .receivedMessage {
+    max-width: 80%;
+  }
+}
+
+/* Add simple animations for message entry */
+@keyframes slideIn {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.sentMessage, .receivedMessage {
+  animation: slideIn 0.3s ease-out;
+}
+
