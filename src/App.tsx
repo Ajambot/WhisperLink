@@ -6,6 +6,7 @@ import Chat from "./components/Chat";
 import {
   addChatsListener,
   createNewChat,
+  downloadFile,
   joinChat,
   leaveChat,
 } from "./handlers";
@@ -139,7 +140,15 @@ function App() {
           >
             {chats[openChat].messages.map((message) => {
               return (
-                <Message isSender = {message.sender.userId === user?.userId } senderName={message.sender.username}>
+                <Message
+                  isSender={message.sender.userId === user?.userId}
+                  senderName={message.sender.username}
+                >
+                  {message.file?.type==="image" ? (
+                    <img src={message.file?.link} />
+                  ) : (
+                    <button onClick={() => downloadFile(message.file?.link)}>Download {message.file?.link}</button>
+                  )}
                   {message.text}
                 </Message>
               );
@@ -179,14 +188,16 @@ function App() {
           }
         >
           <input type="text" readOnly value={link} />
-          <button className={buttonStyles.textContainer}
+          <button
+            className={buttonStyles.textContainer}
             type="button"
             onClick={() => navigator.clipboard.writeText(link)}
           >
             Copy Join Link
           </button>
           <input type="text" readOnly value={chatId} />
-          <button className={buttonStyles.textContainer}
+          <button
+            className={buttonStyles.textContainer}
             type="button"
             onClick={() => navigator.clipboard.writeText(chatId)}
           >

@@ -4,7 +4,6 @@ import {
   connectFirestoreEmulator,
   collection,
   doc,
-  addDoc,
   onSnapshot,
   getFirestore,
   arrayUnion,
@@ -19,6 +18,7 @@ import { SetStateAction } from "react";
 import {
   connectStorageEmulator,
   getDownloadURL,
+  getMetadata,
   getStorage,
   ref,
   uploadBytes,
@@ -99,7 +99,7 @@ export const sendMessage = (
   file: File | undefined
 ) => {
   void (async (chatId: string, sender: user, message: string, file: File | undefined) => {
-    let fileLink;
+    let fileLink, type;
     if (file) {
       const extension = file.name.split(".").pop();
       const filename = uuidv4() + "." + extension;
@@ -107,11 +107,18 @@ export const sendMessage = (
         (snapshot) =>
           getDownloadURL(snapshot.ref).then((downloadURL) => downloadURL)
       );
+      type = await getMetadata(ref(store, filename))
+        .then((metadata) => {
+          const mime = metadata.contentType;
+          if(mime && mime.startsWith('image/'))
+            return "image";
+          return "other";
+        })
     }
     const newMessage = {
       sender: sender,
       text: message,
-      fileLink: fileLink || null,
+      file: { link: fileLink, type: type },
       sessionId: "",
       sentAt: new Date(),
     };
@@ -120,3 +127,29 @@ export const sendMessage = (
     });
   })(chatId, sender, message, file);
 };
+
+export const downloadFile = async (link: string | undefined) => {
+  void (async (link: string | undefined)=> {
+    if(!link) return;
+    try{
+      const response = await fetch(link)
+      const blob = await response.blob()
+      const blobUrl = window.URL.createObjectURL(blob);
+
+      const anchor = document.createElement('a');
+      anchor.href = blobUrl;
+      anchor.download = uuidv4();
+      anchor.target = '_blank'
+      document.body.appendChild(anchor);
+
+      // Trigger the download
+      anchor.click();
+
+      // Clean up
+      window.URL.revokeObjectURL(blobUrl);
+      document.body.removeChild(anchor);
+    } catch (error) {
+      console.error('Error downloading file:', error);
+    }
+  })(link);
+}
