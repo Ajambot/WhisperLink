@@ -12,8 +12,7 @@ interface ChatBarProps {
   setOpenChat: (index: number) => void; // Function to set the open chat
   leaveChat: () => void;
   addNewChat?:() => void;
-  setPopups: (popups: { create: boolean; join: boolean; link: boolean; newChat: boolean }) => void; 
-}
+  setPopups: (popups: { create: boolean; join: boolean; link: boolean; newChat: boolean }) => void; }
 
 
 const ChatBar: React.FC<ChatBarProps> = ({ chats, openChat, setOpenChat, leaveChat, setPopups}) => {
@@ -26,15 +25,16 @@ const ChatBar: React.FC<ChatBarProps> = ({ chats, openChat, setOpenChat, leaveCh
           onClick={() => setOpenChat(index)}
         >
           {chat.chatName}
-          <button className={Styles.textContainer}
-          onClick={leaveChat}
+    
+        </button>
+      ))}
+      <button className={Styles.textContainer}
+          onClick={() =>leaveChat()}
           type="button"
           aria-label="close"
         >
           <FontAwesomeIcon icon={faTimes} />
         </button>
-        </button>
-      ))}
       <button className={Styles.textContainer} onClick={() => setPopups({ create: false, join: false, link: false, newChat: true })}
           type="button"
           aria-label="add">
