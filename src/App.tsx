@@ -13,6 +13,10 @@ import { chat, user } from "./types";
 import Popup from "./components/Popup.tsx";
 import buttonStyles from "./buttonText.module.css"
 import mainStyles from "./mainButtonText.module.css"
+import Chatbar from "./components/chatBar.tsx" 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import addStyles from "./components/addCloseChat.module.css"
 
 function App() {
   const [chats, setChats] = useState<chat[]>([]);
@@ -63,9 +67,17 @@ function App() {
   const chatId = chats.length ? chats[openChat].sessionId : "";
 
   const closeChat = () => {
-    if (user) {
+    if (user && chats.length)
+     {
       leaveChat(chats[openChat].sessionId, user);
-      if(openChat==chats.length-1 && openChat>0) setOpenChat(openChat-1)
+      const updatedChats = chats.filter((_, index) => index !== openChat); // Remove the active chat from the array.
+      setChats(updatedChats); // Update the chats array without the removed chat.
+       // Adjust the openChat index if necessary.
+    if (openChat >= updatedChats.length && updatedChats.length !== 0) {
+      setOpenChat(updatedChats.length - 1);
+    } else if (updatedChats.length === 0) {
+      setOpenChat(-1); // Set to -1 or another placeholder if no chats remain.
+    }
       setPopups({ link: false, create: false, join: false, newChat: false });
     }
   };
@@ -75,26 +87,8 @@ function App() {
       {chats.length ? (
         <>
           <div className="chat-navbar">
-            {chats.map((chat, index) => {
-              return (
-                <button className={buttonStyles.textContainer} type="button" onClick={() => setOpenChat(index)}>
-                  {chat.chatName}
-                </button>
-              );
-            })}
-            <button className={buttonStyles.textContainer}
-              onClick={() =>
-                setPopups({
-                  create: false,
-                  join: false,
-                  link: false,
-                  newChat: true,
-                })
-              }
-              type="button"
-            >
-              Add chat
-            </button>
+          <Chatbar chats={chats} openChat={openChat} setOpenChat={setOpenChat} leaveChat={closeChat} setPopups={setPopups}/>
+          
             {popups.newChat ? (
               <Popup
                 title="New Chat"
