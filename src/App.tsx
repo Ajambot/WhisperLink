@@ -12,6 +12,7 @@ import {
 import { chat, user } from "./types";
 import Popup from "./components/Popup.tsx";
 import buttonStyles from "./buttonText.module.css"
+import mainStyles from "./mainButtonText.module.css"
 
 function App() {
   const [chats, setChats] = useState<chat[]>([]);
@@ -25,6 +26,23 @@ function App() {
   });
   const [code, setCode] = useState("");
 
+  const openJoinPopup = () => {
+    setPopups({
+      create: false,
+      link: false,
+      join: true,
+      newChat: false,
+    });
+  };
+
+  const openCreatePopup = () => {
+    setPopups({
+      create: true,
+      link: false,
+      join: false,
+      newChat: false,
+    });
+  };
   useEffect(() => {
     const unsub = addChatsListener(user, setChats);
     return () => unsub();
@@ -64,7 +82,7 @@ function App() {
                 </button>
               );
             })}
-            <button
+            <button className={buttonStyles.textContainer}
               onClick={() =>
                 setPopups({
                   create: false,
@@ -90,7 +108,7 @@ function App() {
                 }
               >
                 <div className="buttons">
-                  <button
+                  <button className={mainStyles.textContainer}
                     onClick={() => {
                       setPopups({
                         create: false,
@@ -100,9 +118,9 @@ function App() {
                       });
                     }}
                   >
-                    Join a Chatroom
+                    Join Chatroom
                   </button>
-                  <button
+                  <button className={mainStyles.textContainer}
                     onClick={() => {
                       setPopups({
                         create: true,
@@ -112,7 +130,7 @@ function App() {
                       });
                     }}
                   >
-                    Create a Chatroom
+                    Create Chatroom
                   </button>
                 </div>
               </Popup>
@@ -216,15 +234,15 @@ function App() {
               });
             }}
           >
-            <label htmlFor="chatName">Chat Name</label>
-            <input type="text" name="chatName" />
-            <label htmlFor="displayName">Display Name</label>
-            <input
+            <label htmlFor="chatName" style={{ padding: '12px' , fontSize: '22px'}}>Chat Name</label>
+            <input type="text" style={{ padding: '12px' , marginRight: '50px'}} name="chatName"/>
+            <label htmlFor="displayName" style={{ padding: '12px' , fontSize: '22px'}}>Display Name</label>
+            <input style={{ padding: '12px' }}
               type="text"
-              name="displayName"
               defaultValue={user?.username || ""}
+              name="displayName"
             />
-            <button type="submit">Create</button>
+            <button type="submit" style={{ padding: '9px', fontSize: '18px' }}>Create</button>
           </form>
         </Popup>
       ) : (
@@ -262,15 +280,15 @@ function App() {
               });
             }}
           >
-            <label htmlFor="chatId">Chat ID</label>
-            <input type="text" defaultValue={code || ""} name="chatId" />
-            <label htmlFor="displayName">Display Name</label>
-            <input
+            <label htmlFor="chatId" style={{ padding: '12px', fontSize: '22px' }}>Chat ID</label>
+            <input type="text" defaultValue={code || "" } style={{ padding: '12px', marginRight: '50px'  }} name="chatId" />
+            <label htmlFor="displayName" style={{ padding: '12px' , fontSize: '22px'}}>Display Name</label>
+            <input style={{ padding: '12px' }}
               type="text"
               defaultValue={user?.username || ""}
               name="displayName"
             />
-            <button type="submit">Join</button>
+            <button type="submit" style={{ padding: '9px', fontSize: '18px' }}>Join</button>
           </form>
         </Popup>
       ) : (

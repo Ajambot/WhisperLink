@@ -9,13 +9,13 @@ interface Props {
 const Popup = ({ title, children, closeFn }: Props) => {
   return (
     <div className="popup link">
-      <div className="header">
+      <div className ={textStyles.bodyContainer}>
         <h1>{title}</h1>
-        <button className ={textStyles.popContainer} onClick={closeFn}>
+        {children}
+        <button className ={textStyles.buttonContainer} onClick={closeFn}>
           Close
         </button>
       </div>
-      {children}
     </div>
   );
 };

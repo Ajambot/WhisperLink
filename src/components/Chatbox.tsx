@@ -24,7 +24,7 @@ const Chatbox = ({ user, chatId }: Props) => {
         e.currentTarget.reset();
       }}
     >
-      <input
+      <input style={{fontSize: '15px', fontFamily: 'Arial'}}
         type="text"
         placeholder="Type a message"
         className="chatbox-input"
