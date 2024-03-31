@@ -15,7 +15,7 @@ import Popup from "./components/Popup.tsx";
 import buttonStyles from "./buttonText.module.css"
 import mainStyles from "./mainButtonText.module.css"
 import main from "./App.module.css"
-import Chatbar from "./components/chatBar.tsx" 
+import ChatBar from "./components/ChatBar.tsx";
 
 function App() {
   const [chats, setChats] = useState<chat[]>([]);
@@ -48,28 +48,22 @@ function App() {
     : "";
   const chatId = chats.length ? chats[openChat].sessionId : "";
 
-  const closeChat = () => {
-    if (user && chats.length)
-    {
-     leaveChat(chats[openChat].sessionId, user);
-     const updatedChats = chats.filter((_, index) => index !== openChat); // Remove the active chat from the array.
-     setChats(updatedChats); // Update the chats array without the removed chat.
-      // Adjust the openChat index if necessary.
-   if (openChat >= updatedChats.length && updatedChats.length !== 0) {
-     setOpenChat(updatedChats.length - 1);
-   } else if (updatedChats.length === 0) {
-     setOpenChat(-1); // Set to -1 or another placeholder if no chats remain.
-   }
-     setPopups({ link: false, create: false, join: false, newChat: false });
-   }
-  };
+  const closeChat = (index: number) => {
+    if (user && chats.length){
+      if(chats.length===1) setPopups({link: false, create: false, join: false, newChat: false});
+      leaveChat(chats[index].sessionId, user);
+      if(index<=openChat){
+        setOpenChat(openChat==0? openChat : openChat-1);
+      }
+    }
+  }
 
   return (
     <>
       {chats.length ? (
         <>
           <div className="chat-navbar">
-          <Chatbar chats={chats} openChat={openChat} setOpenChat={setOpenChat} leaveChat={closeChat}  setPopups={setPopups}/>
+          <ChatBar chats={chats} openChat={openChat} setOpenChat={setOpenChat} leaveChat={closeChat}  setPopups={setPopups}/>
             {popups.newChat ? (
               <Popup
                 title="New Chat"
