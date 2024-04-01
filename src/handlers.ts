@@ -12,8 +12,9 @@ import {
   query,
   where,
   arrayRemove,
+  getDoc,
 } from "firebase/firestore";
-import type { chat, user} from "./types";
+import type { chat, user } from "./types";
 import { SetStateAction } from "react";
 import {
   connectStorageEmulator,
@@ -48,8 +49,11 @@ export const addChatsListener = (
   user: user | undefined,
   setChats: React.Dispatch<SetStateAction<chat[]>>
 ) => {
-  if(!user) user={username:"", userId:""};
-  const q = query(collection(db, "Chats"), where("users", "array-contains", user))
+  if (!user) user = { username: "", userId: "" };
+  const q = query(
+    collection(db, "Chats"),
+    where("users", "array-contains", user)
+  );
   const unsub = onSnapshot(q, (querySnapshot) => {
     const chats: chat[] = [];
     querySnapshot.forEach((chat) => {
@@ -65,23 +69,79 @@ export const addChatsListener = (
   return () => unsub();
 };
 
-export const createNewChat = (chatName: string, chatId: string, user: user) => {
-  void (async (chatId: string, user: user) => {
+export const createNewChat = (
+  chatName: string,
+  chatId: string,
+  user: user,
+  QandA: { question: string; answer: string }
+) => {
+  void (async (chatId: string, user: user, QandA) => {
+    const { question, answer } = QandA;
     await setDoc(doc(db, "Chats", chatId), {
       chatName: chatName,
       createdAt: new Date(),
       users: [user],
       messages: [],
+      securityQuestion: question,
+      securityAnswer: answer,
     });
-  })(chatId, user);
+  })(chatId, user, QandA);
 };
 
-export const joinChat = (chatId: string, user: user) => {
-  void (async (chatId: string, user: user) => {
-    await updateDoc(doc(db, "Chats", chatId), {
+export const joinChat = (
+  chatId: string,
+  user: user,
+  answer: string,
+  setError: React.Dispatch<React.SetStateAction<boolean>>,
+  setUser: React.Dispatch<React.SetStateAction<user | undefined>>,
+  setQuestion: React.Dispatch<React.SetStateAction<string | undefined>>,
+  setPopups: React.Dispatch<
+    React.SetStateAction<{
+      link: boolean;
+      create: boolean;
+      join: boolean;
+      newChat: boolean;
+    }>
+  >
+) => {
+  void (async (chatId: string, user: user, answer) => {
+    const chatRef = doc(db, "Chats", chatId);
+    const chat = await getDoc(chatRef);
+    const chatData = chat.data();
+    if (!chatData || answer !== chatData.securityAnswer) {
+      setError(true);
+      return;
+    }
+    setUser(user);
+    setPopups({
+      create: false,
+      join: false,
+      link: true,
+      newChat: false,
+    });
+    setQuestion(undefined);
+    setError(false);
+    await updateDoc(chatRef, {
       users: arrayUnion(user),
     });
-  })(chatId, user);
+  })(chatId, user, answer);
+};
+
+export const fetchQuestion = (
+  chatId: string,
+  setQuestion: React.Dispatch<React.SetStateAction<string | undefined>>,
+  setError: React.Dispatch<React.SetStateAction<boolean>>
+) => {
+  void (async (chatId) => {
+    const chatRef = doc(db, "Chats", chatId);
+    const chat = await getDoc(chatRef);
+    const chatData = chat.data();
+    if (!chatData) {
+      setError(true);
+      return;
+    }
+    setQuestion(chatData.securityQuestion as string);
+  })(chatId);
 };
 
 export const leaveChat = (chatId: string, user: user) => {
@@ -98,7 +158,12 @@ export const sendMessage = (
   message: string,
   file: File | undefined
 ) => {
-  void (async (chatId: string, sender: user, message: string, file: File | undefined) => {
+  void (async (
+    chatId: string,
+    sender: user,
+    message: string,
+    file: File | undefined
+  ) => {
     let fileLink, type;
     if (file) {
       const extension = file.name.split(".").pop();
@@ -107,22 +172,20 @@ export const sendMessage = (
         (snapshot) =>
           getDownloadURL(snapshot.ref).then((downloadURL) => downloadURL)
       );
-      type = await getMetadata(ref(store, filename))
-        .then((metadata) => {
-          const mime = metadata.contentType;
-          if(mime && mime.startsWith('image/'))
-            return "image";
-          return "other";
-        })
+      type = await getMetadata(ref(store, filename)).then((metadata) => {
+        const mime = metadata.contentType;
+        if (mime && mime.startsWith("image/")) return "image";
+        return "other";
+      });
     }
     const newMessage = {
       sender: sender,
       text: message,
-      ...(fileLink) && {file: { link: fileLink, type: type }},
+      ...(fileLink && { file: { link: fileLink, type: type } }),
       sessionId: "",
       sentAt: new Date(),
     };
-    console.log(newMessage)
+    console.log(newMessage);
     await updateDoc(doc(db, "Chats", chatId), {
       messages: arrayUnion(newMessage),
     });
@@ -130,17 +193,17 @@ export const sendMessage = (
 };
 
 export const downloadFile = async (link: string | undefined) => {
-  void (async (link: string | undefined)=> {
-    if(!link) return;
-    try{
-      const response = await fetch(link)
-      const blob = await response.blob()
+  void (async (link: string | undefined) => {
+    if (!link) return;
+    try {
+      const response = await fetch(link);
+      const blob = await response.blob();
       const blobUrl = window.URL.createObjectURL(blob);
 
-      const anchor = document.createElement('a');
+      const anchor = document.createElement("a");
       anchor.href = blobUrl;
       anchor.download = uuidv4();
-      anchor.target = '_blank'
+      anchor.target = "_blank";
       document.body.appendChild(anchor);
 
       // Trigger the download
@@ -150,7 +213,7 @@ export const downloadFile = async (link: string | undefined) => {
       window.URL.revokeObjectURL(blobUrl);
       document.body.removeChild(anchor);
     } catch (error) {
-      console.error('Error downloading file:', error);
+      console.error("Error downloading file:", error);
     }
   })(link);
-}
+};
