@@ -1,9 +1,8 @@
 /* src/styles/Chat.module.css */
-body,
-.homeContainer {
+body, #root {
   margin: 0;
   padding: 0;
-  background-color: #011d1b;
+  background-color: #43BCCD;
   height: 100px;
   display: flex;
   justify-content: center; /* Center items horizontally */
@@ -13,13 +12,27 @@ body,
   font-size: 60px;
   font-family: Arial, sans-serif;
   font-weight: bold;
-  text-shadow: 2px 2px 4px #ff7300; /* Adds shadow */
-  text-transform: uppercase; /* Convert text to uppercase */
-  animation: pulse 2s ease-in-out infinite alternate,
-    glow 2s ease-in-out infinite alternate; /* Combining multiple animations */
+  text-shadow: 2px 2px 4px #ff7300;
+  text-transform: uppercase;
+  animation: pulse 2s ease-in-out infinite alternate,    glow 2s ease-in-out infinite alternate;
   padding: "10px 20px";
   color: #000000;
-  margin-top: 75px;
+  -webkit-animation: pulse 2s ease-in-out infinite alternate,    glow 2s ease-in-out infinite alternate;
+}
+
+.titleContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -60%);
+  -webkit-transform: translate(-50%, -60%);
+  -moz-transform: translate(-50%, -60%);
+  -ms-transform: translate(-50%, -60%);
+  -o-transform: translate(-50%, -60%);
 }
 
 .message::after {
@@ -27,17 +40,16 @@ body,
   display: block;
   width: 425px;
   height: 4px;
-  background-color: #ff7300; /* Blue color */
-  margin: 10px auto; /* Center the underline */
-  border-radius: 2px; /* Rounded corners */
-  transition: width 0.3s ease-in-out; /* Adds transition effect */
+  background-color: #ff7300;
+  margin: 10px auto;
+  border-radius: 2px;
+  transition: width 0.4s ease-in-out; /* Adds transition effect */
 }
 
 .buttonContainer {
   display: flex;
   justify-content: center; /* Adjust this as needed */
   gap: 40px; /* Adjust the space between the buttons */
-  margin-top: 60px; /* Space between the text and the buttons */
   justify-content: center; /* Center items horizontally */
   text-align: center; /* Center text inside the container */
 }
@@ -45,19 +57,29 @@ body,
 /* Animation for pulsating effect */
 @keyframes pulse {
   0% {
-    transform: scale(1);
+    transform: scale(0.95);
+    -webkit-transform: scale(0.95);
+    -webkit-transform: scale(0.95);
+    -moz-transform: scale(0.95);
+    -ms-transform: scale(0.95);
+    -o-transform: scale(0.95);
   }
   100% {
-    transform: scale(1);
-  }
+    transform: scale(1.1);
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    -o-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+}
 }
 
 /* Animation for glowing effect */
 @keyframes glow {
   0% {
-    text-shadow: 2px 2px 4px #ffffff;
+    text-shadow: 2px 2px 4px #ff7300;
   }
   100% {
-    text-shadow: 2px 2px 12px #ff7300; /* Increased blur radius */
+    text-shadow: 2px 2px 4px #ff7300; /* Increased blur radius */
   }
 }

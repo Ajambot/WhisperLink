@@ -1,21 +1,37 @@
-.popContainer {
-    font-size: 20px; /* Increase the font size */
-    padding: 15px 30px; /* Increase padding to make button larger */
-    margin: 5px; /* Adjust as needed */
+.buttonContainer {
+    font-size: 15px;
+    /*Increasethefontsize*/padding: 10px 10px;
+    /*Increasepaddingtomakebuttonlarger*/text-transform: uppercase;
     font-family: Arial, sans-serif;
-    color: #18023b;
-    background-color: #1dade1;
-    padding: '10px 20px';
-    border-radius: '5px';
-    justify-content: left;
-  }
+    color: #2c046d;
+    background-color: beige;
+    cursor: pointer;
+    border-radius: 10px;
+    /*Adjustthevaluetochangetheroundness*/position: absolute;
+    top: 0%;
+    left: 100%;
+    margin-top: 10px;
+    transform: translate(-150%);
+    -webkit-transform: translate(-150%);
+    -moz-transform: translate(-150%);
+    -ms-transform: translate(-150%);
+    -o-transform: translate(-150%);
+}
 
   .bodyContainer
   {
-    display: flex;
-    justify-content: center; /* Adjust this as needed */
-    gap: 40px; /* Adjust the space between the buttons */
-    margin-top: 60px; /* Space between the text and the buttons */
-    justify-content: center; /* Center items horizontally */
+    position: fixed;
+    color: #000000;
+    text-shadow: 1px 1px 1px #ff730080; /* Adds shadow */
+    text-transform: uppercase;
     text-align: center; /* Center text inside the container */
+    top: 50%;
+    left: 50%;
+    width: 30%; /* Adjust the width as needed */
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 20px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+    z-index: 9999; /* Ensure it's above other content */
   }

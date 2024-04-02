@@ -6,21 +6,14 @@ interface Props {
   children: React.ReactNode;
   chatId: string;
   user: user | undefined;
-  leaveChat: () => void
+  showLink: () => void
 }
 
-const Chat = ({ user, children, chatId, leaveChat }: Props) => {
+const Chat = ({ user, children, chatId, showLink }: Props) => {
   return (
     <div>
       <div className="chat-header">
-        <button
-          onClick={leaveChat}
-          type="button"
-          className="chat-close"
-          aria-label="close"
-        >
-          Close chat
-        </button>
+        <button type="button" onClick={showLink}>Invite People</button>
       </div>
       <div className="chatroom-main">{children}</div>
       <Chatbox user={user} chatId={chatId} />
