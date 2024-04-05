@@ -9,7 +9,7 @@
   background-color: #dcf8c6; /* Light green background for sent messages */
   border-radius: 20px;
   padding: 10px;
-  max-width: 60%;
+  max-width: 100%;
   margin: 5px;
   word-wrap: break-word;
 }
@@ -19,7 +19,7 @@
   background-color: #f0f0f0; /* Light gray background for received messages */
   border-radius: 20px;
   padding: 10px;
-  max-width: 60%;
+  max-width: 100%;
   margin: 5px;
   word-wrap: break-word;
 }
@@ -53,4 +53,3 @@
 .sentMessage, .receivedMessage {
   animation: slideIn 0.3s ease-out;
 }
-

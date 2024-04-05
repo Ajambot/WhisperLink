@@ -17,6 +17,7 @@ import buttonStyles from "./buttonText.module.css";
 import mainStyles from "./mainButtonText.module.css";
 import main from "./App.module.css";
 import ChatBar from "./components/chatBar.tsx";
+import "./components/Message.module.css"
 
 function App() 
 {
@@ -176,7 +177,10 @@ function App()
                 >
                   {message.file ? (
                     message.file?.type === "image" ? (
-                      <img src={message.file?.link} />
+                      <div style={{ width: 'fit-content', height: 'fit-content' }}>
+                      <img src={message.file?.link} style={{ maxWidth: '100%', maxHeight: '100%' }} // Adjust the size as needed
+                      alt="Image"/>
+                      </div>
                     ) : (
                       <button onClick={() => downloadFile(message.file?.link)}>
                         Download {message.file?.link}
