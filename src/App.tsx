@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import { useEffect, useState } from "react";
-import HomePage from "./components/HomePage.tsx";
+import HomePage from "./components/HomePage";
 import Message from "./components/Message";
 import Chat from "./components/Chat";
 import {
@@ -18,7 +18,9 @@ import mainStyles from "./mainButtonText.module.css";
 import main from "./App.module.css";
 import ChatBar from "./components/chatBar.tsx";
 
-function App() {
+function App() 
+{
+
   const [chats, setChats] = useState<chat[]>([]);
   const [openChat, setOpenChat] = useState(0);
   const [user, setUser] = useState<user>();
@@ -28,6 +30,7 @@ function App() {
     create: false,
     join: false,
     newChat: false,
+    currChat: false,
   });
   const [code, setCode] = useState("");
   const [valError, setValError] = useState(false);
@@ -41,7 +44,7 @@ function App() {
     const urlParams = new URLSearchParams(window.location.search);
     const chatId = urlParams.get("chatId");
     if (chatId) {
-      setPopups({ create: false, link: false, join: true, newChat: false });
+      setPopups({ create: false, link: false, join: true, newChat: false, currChat: false });
       setCode(chatId);
     }
   }, []);
@@ -68,13 +71,21 @@ function App() {
       username: displayName,
       userId: user?.userId || uuidv4(),
     };
-    joinChat(chatId, newUser, securityAnswer, setValError, setUser, setQuestion, setPopups);
+    joinChat(chatId, newUser, securityAnswer, setValError, setUser, setQuestion, () => {
+      setPopups({
+          create: false,
+          join: false,
+          link: false,
+          newChat: false,
+          currChat: true, // Open the chat popup after joining
+      });
+    });
   }
 
   const closeChat = (index: number) => {
     if (user && chats.length) {
       if (chats.length === 1)
-        setPopups({ link: false, create: false, join: false, newChat: false });
+        setPopups({ link: false, create: false, join: false, newChat: false, currChat: false });
       leaveChat(chats[index].sessionId, user);
       if (index <= openChat) {
         setOpenChat(openChat == 0 ? openChat : openChat - 1);
@@ -103,6 +114,7 @@ function App() {
                     join: false,
                     link: false,
                     newChat: false,
+                    currChat: false,
                   })
                 }
               >
@@ -115,6 +127,7 @@ function App() {
                         link: false,
                         join: true,
                         newChat: false,
+                        currChat: false,
                       });
                     }}
                   >
@@ -128,6 +141,7 @@ function App() {
                         link: false,
                         join: false,
                         newChat: false,
+                        currChat: false,
                       });
                     }}
                   >
@@ -139,10 +153,20 @@ function App() {
               <></>
             )}
           </div>
+          {popups.currChat && (
+          <Popup title="Chat"
+          closeFn={() =>
+            setPopups({
+              create: false,
+              join: false,
+              link: false,
+              newChat: false,
+              currChat: false,
+            })}>
           <Chat
             user={user}
             chatId={chats[openChat].sessionId}
-            showLink={() => setPopups({create: false, newChat: false, join: false, link: true})}
+            showLink={() => setPopups({create: false, newChat: false, join: false, link: true, currChat: false,})}
           >
             {chats[openChat].messages.map((message) => {
               return (
@@ -166,6 +190,8 @@ function App() {
               );
             })}
           </Chat>
+          </Popup>
+          )}
         </>
       ) : (
         <HomePage
@@ -175,6 +201,7 @@ function App() {
               link: false,
               join: true,
               newChat: false,
+              currChat: false,
             });
           }}
           onCreate={async () => {
@@ -183,6 +210,7 @@ function App() {
               join: false,
               create: true,
               newChat: false,
+              currChat: false,
             });
           }}
         ></HomePage>
@@ -196,6 +224,7 @@ function App() {
               join: false,
               link: false,
               newChat: false,
+              currChat: false,
             })
           }
         >
@@ -244,6 +273,7 @@ function App() {
               link: false,
               create: false,
               newChat: false,
+              currChat: false,
             })
           }
         >
@@ -260,13 +290,23 @@ function App() {
                 username: displayName,
                 userId: user?.userId || uuidv4(),
               };
-              createNewChat(chatName, uuidv4(), newUser, { question, answer });
+              createNewChat(chatName, uuidv4(), newUser, { question, answer },() => {
+                setUser(newUser);
+                setPopups({
+                    create: false,
+                    join: false,
+                    link: false,
+                    newChat: false,
+                    currChat: true, 
+                });
+              });
               setUser(newUser);
               setPopups({
                 join: false,
                 link: true,
                 create: false,
                 newChat: false,
+                currChat: false,
               });
             }}
           >
@@ -313,6 +353,7 @@ function App() {
               create: false,
               join: false,
               newChat: false,
+              currChat: false,
             })
             setValError(false);
             setQuestion(undefined);

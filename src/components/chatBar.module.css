@@ -6,6 +6,7 @@
     align-items: center; /* Adjust alignment as needed */
     padding: 1px 0; /* Add some padding above and below the tabs */
     overflow-x: auto; /* Enables scrolling for overflow */
+    max-width: 30vw;
     width: fit-content;
     white-space: nowrap; /* Prevents wrapping of tabs */
   }

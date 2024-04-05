@@ -73,7 +73,8 @@ export const createNewChat = (
   chatName: string,
   chatId: string,
   user: user,
-  QandA: { question: string; answer: string }
+  QandA: { question: string; answer: string },
+  callback: () => void
 ) => {
   void (async (chatId: string, user: user, QandA) => {
     const { question, answer } = QandA;
@@ -85,6 +86,7 @@ export const createNewChat = (
       securityQuestion: question,
       securityAnswer: answer,
     });
+    callback();
   })(chatId, user, QandA);
 };
 
@@ -101,6 +103,7 @@ export const joinChat = (
       create: boolean;
       join: boolean;
       newChat: boolean;
+      currChat: boolean;
     }>
   >
 ) => {
@@ -118,6 +121,7 @@ export const joinChat = (
       join: false,
       link: true,
       newChat: false,
+      currChat: false,
     });
     setQuestion(undefined);
     setError(false);

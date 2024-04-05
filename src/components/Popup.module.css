@@ -25,9 +25,12 @@
     text-shadow: 1px 1px 1px #ff730080; /* Adds shadow */
     text-transform: uppercase;
     text-align: center; /* Center text inside the container */
+    overflow: auto; 
     top: 50%;
     left: 50%;
     width: 30%; /* Adjust the width as needed */
+    height: 50%;
+    max-height: 90vh;
     transform: translate(-50%, -50%);
     background-color: white;
     border: 1px solid #ccc;

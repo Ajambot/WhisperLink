@@ -14,8 +14,11 @@ interface Props {
     join: boolean;
     link: boolean;
     newChat: boolean;
+    currChat: boolean;
   }) => void;
 }
+
+
 
 const ChatBar = ({
   chats,
@@ -32,7 +35,13 @@ const ChatBar = ({
           className={`${styles.textContainer} ${
             openChat === index ? styles.active : ""
           }`}
-          onClick={() => setOpenChat(index)}
+          onClick={() => {setOpenChat(index); setPopups({
+            create: false,
+            join: false,
+            link: false,
+            newChat: false,
+            currChat: true, 
+        }); }}
         >
           {chat.chatName}
           <button
@@ -51,7 +60,10 @@ const ChatBar = ({
       <button
         className={Styles.textContainer}
         onClick={() =>
-          setPopups({ create: false, join: false, link: false, newChat: true })
+          setPopups({
+            create: false, join: false, link: false, newChat: true,
+            currChat: false
+          })
         }
         type="button"
         aria-label="add"

@@ -11,10 +11,10 @@ const Popup = ({ title, children, closeFn }: Props) => {
     <div className="popup link">
       <div className ={textStyles.bodyContainer}>
         <h1>{title}</h1>
-        {children}
         <button className ={textStyles.buttonContainer} onClick={closeFn}>
           X
         </button>
+        {children}
       </div>
     </div>
   );
