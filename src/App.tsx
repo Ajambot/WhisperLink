@@ -7,6 +7,7 @@ import {
   addChatsListener,
   createNewChat,
   downloadFile,
+  fetchQuestion,
   joinChat,
   leaveChat,
 } from "./handlers";
@@ -21,6 +22,7 @@ function App() {
   const [chats, setChats] = useState<chat[]>([]);
   const [openChat, setOpenChat] = useState(0);
   const [user, setUser] = useState<user>();
+  const [question, setQuestion] = useState<string>();
   const [popups, setPopups] = useState({
     link: false,
     create: false,
@@ -28,6 +30,7 @@ function App() {
     newChat: false,
   });
   const [code, setCode] = useState("");
+  const [valError, setValError] = useState(false);
 
   useEffect(() => {
     const unsub = addChatsListener(user, setChats);
@@ -47,6 +50,26 @@ function App() {
     ? "http://localhost:5000?chatId=" + chats[openChat].sessionId
     : "";
   const chatId = chats.length ? chats[openChat].sessionId : "";
+
+  const fetchHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setValError(false);
+    const form = new FormData(e.currentTarget);
+    const chatId = form.get("chatId") as string;
+    fetchQuestion(chatId, setQuestion, setValError);
+  }
+  const joinHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = new FormData(e.currentTarget);
+    const chatId = form.get("chatId") as string;
+    const displayName = form.get("displayName") as string;
+    const securityAnswer = form.get("securityAnswer") as string;
+    const newUser = {
+      username: displayName,
+      userId: user?.userId || uuidv4(),
+    };
+    joinChat(chatId, newUser, securityAnswer, setValError, setUser, setQuestion, setPopups);
+  }
 
   const closeChat = (index: number) => {
     if (user && chats.length) {
@@ -117,9 +140,9 @@ function App() {
             )}
           </div>
           <Chat
-            leaveChat={() => closeChat}
             user={user}
             chatId={chats[openChat].sessionId}
+            showLink={() => setPopups({create: false, newChat: false, join: false, link: true})}
           >
             {chats[openChat].messages.map((message) => {
               return (
@@ -231,11 +254,13 @@ function App() {
               const form = new FormData(e.currentTarget);
               const chatName = form.get("chatName") as string;
               const displayName = form.get("displayName") as string;
+              const question = form.get("securityQuestion") as string;
+              const answer = form.get("securityAnswer") as string;
               const newUser = {
                 username: displayName,
                 userId: user?.userId || uuidv4(),
               };
-              createNewChat(chatName, uuidv4(), newUser);
+              createNewChat(chatName, uuidv4(), newUser, { question, answer });
               setUser(newUser);
               setPopups({
                 join: false,
@@ -246,25 +271,34 @@ function App() {
             }}
           >
             <div className={main.formField}>
-              <label htmlFor="chatName" style={{ fontSize: "22px" }}>
-                Chat Name
-              </label>
-              <input type="text" style={{ padding: "12px" }} name="chatName" />
+              <label htmlFor="chatName" style={{ fontSize: '22px'}}>Chat Name</label>
+              <input required type="text" style={{ padding: '12px'}} name="chatName"/>
             </div>
             <div className={main.formField}>
-              <label htmlFor="displayName" style={{ fontSize: "22px" }}>
-                Display Name
-              </label>
-              <input
-                style={{ padding: "12px" }}
+              <label htmlFor="displayName" style={{ fontSize: '22px'}}>Display Name</label>
+              <input required style={{ padding: '12px' }}
                 type="text"
                 defaultValue={user?.username || ""}
                 name="displayName"
               />
             </div>
-            <button type="submit" className={mainStyles.textContainer}>
-              Create
-            </button>
+            <div className={main.formField}>
+              <label htmlFor="securityQuestion" style={{ fontSize: '22px'}}>Security Question</label>
+              <input style={{ padding: '12px' }}
+                type="text"
+                name="securityQuestion"
+                required
+              />
+            </div>
+            <div className={main.formField}>
+              <label htmlFor="securityAnswer" style={{ fontSize: '22px'}}>Answer</label>
+              <input style={{ padding: '12px' }}
+                type="text"
+                name="securityAnswer"
+                required
+              />
+            </div>
+            <button type="submit" className={mainStyles.textContainer}>Create</button>
           </form>
         </Popup>
       ) : (
@@ -273,49 +307,24 @@ function App() {
       {popups.join ? (
         <Popup
           title="Join a chat"
-          closeFn={() =>
+          closeFn={() => {
             setPopups({
               link: false,
               create: false,
               join: false,
               newChat: false,
             })
-          }
+            setValError(false);
+            setQuestion(undefined);
+          }}
         >
           <form
             className={main.popupForm}
-            onSubmit={(e) => {
-              e.preventDefault();
-              const form = new FormData(e.currentTarget);
-              const chatId = form.get("chatId") as string;
-              const displayName = form.get("displayName") as string;
-              const newUser = {
-                username: displayName,
-                userId: user?.userId || uuidv4(),
-              };
-              joinChat(chatId, newUser);
-              setUser(newUser);
-              setPopups({
-                create: false,
-                join: false,
-                link: true,
-                newChat: false,
-              });
-            }}
+            onSubmit={question? joinHandler : fetchHandler}
           >
             <div className={main.formField}>
-              <label
-                htmlFor="chatId"
-                style={{ fontSize: "22px", textAlign: "left" }}
-              >
-                Chat ID
-              </label>
-              <input
-                type="text"
-                defaultValue={code || ""}
-                style={{ padding: "12px" }}
-                name="chatId"
-              />
+              <label htmlFor="chatId" style={{ fontSize: '22px', textAlign: "left" }}>Chat ID</label>
+              <input type="text" defaultValue={code || "" } style={{ padding: '12px'}} name="chatId" required/>
             </div>
             <div className={main.formField}>
               <label
@@ -329,11 +338,19 @@ function App() {
                 type="text"
                 defaultValue={user?.username || ""}
                 name="displayName"
+                required
               />
             </div>
-            <button type="submit" className={mainStyles.textContainer}>
-              Join
-            </button>
+            <div className={`${main.formField} ${question? "": main.hidden}`}>
+              <label htmlFor="securityAnswer" style={{ fontSize: '22px', textAlign: "left"}}>{"Security Question: " + question || ""}</label>
+              <input style={{ padding: '12px'}}
+                type="text"
+                name="securityAnswer"
+                required={question!==undefined}
+              />
+            </div>
+            <p className={`${!valError? main.hidden : ""}`}>{question? "Incorrect security answer" : "Chat with specified ID not found"}</p>
+            <button type="submit" className={mainStyles.textContainer}>{question? "Join" : "Next"}</button>
           </form>
         </Popup>
       ) : (
