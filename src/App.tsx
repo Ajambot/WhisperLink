@@ -8,10 +8,11 @@ import {
   createNewChat,
   downloadFile,
   fetchQuestion,
+  generateKeyPair,
   joinChat,
   leaveChat,
 } from "./handlers";
-import { chat, user } from "./types";
+import { chat, normalUser, user } from "./types";
 import Popup from "./components/Popup.tsx";
 import buttonStyles from "./buttonText.module.css"
 import mainStyles from "./mainButtonText.module.css"
@@ -29,11 +30,13 @@ function App() {
     join: false,
     newChat: false,
   });
+  const [normalUser, setNormalUser] = useState<normalUser>()
   const [code, setCode] = useState("");
   const [valError, setValError] = useState(false);
 
   useEffect(() => {
-    const unsub = addChatsListener(user, setChats);
+    if(!user) return;
+    const unsub = addChatsListener(user, setChats, setUser);
     return () => unsub();
   }, [user]);
 
@@ -51,6 +54,16 @@ function App() {
     : "";
   const chatId = chats.length ? chats[openChat].sessionId : "";
 
+  const createHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = new FormData(e.currentTarget);
+    const chatName = form.get("chatName") as string;
+    const displayName = form.get("displayName") as string;
+    const question = form.get("securityQuestion") as string;
+    const answer = form.get("securityAnswer") as string;
+    createNewChat(chatName, setUser, setPopups, {question, answer}, displayName, user || undefined);
+  }
+
   const fetchHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setValError(false);
@@ -64,11 +77,7 @@ function App() {
     const chatId = form.get("chatId") as string;
     const displayName = form.get("displayName") as string;
     const securityAnswer = form.get("securityAnswer") as string;
-    const newUser = {
-      username: displayName,
-      userId: user?.userId || uuidv4(),
-    };
-    joinChat(chatId, newUser, securityAnswer, setValError, setUser, setQuestion, setPopups);
+    joinChat(chatId, displayName, securityAnswer, setValError, setUser, setQuestion, setPopups, user || undefined)
   }
 
   const closeChat = (index: number) => {
@@ -144,7 +153,7 @@ function App() {
                   {message.file? message.file?.type==="image" ? (
                     <img src={message.file?.link} />
                   ) : (
-                    <button onClick={() => downloadFile(message.file?.link)}>Download {message.file?.link}</button>
+                    <button onClick={() => {if(user) downloadFile(message.file?.link, user.keys[chats[openChat].sessionId].groupKey, message.file?.iv)}}>Download {message.file?.link}</button>
                   ) : <></>}
                   {message.text}
                 </Message>
@@ -222,26 +231,7 @@ function App() {
         >
           <form
             className={main.popupForm}
-            onSubmit={(e) => {
-              e.preventDefault();
-              const form = new FormData(e.currentTarget);
-              const chatName = form.get("chatName") as string;
-              const displayName = form.get("displayName") as string;
-              const question = form.get("securityQuestion") as string;
-              const answer = form.get("securityAnswer") as string;
-              const newUser = {
-                username: displayName,
-                userId: user?.userId || uuidv4(),
-              };
-              createNewChat(chatName, uuidv4(), newUser, { question, answer });
-              setUser(newUser);
-              setPopups({
-                join: false,
-                link: true,
-                create: false,
-                newChat: false,
-              });
-            }}
+            onSubmit={createHandler}
           >
             <div className={main.formField}>
               <label htmlFor="chatName" style={{ fontSize: '22px'}}>Chat Name</label>

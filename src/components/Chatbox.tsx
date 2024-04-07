@@ -18,7 +18,7 @@ const Chatbox = ({ user, chatId }: Props) => {
       onSubmit={(e) => {
         e.preventDefault();
         if(!user) return
-        sendMessage(chatId, user, msg, file);
+        sendMessage(chatId, user, msg, file, );
         setMsg("");
         setFile(undefined);
         e.currentTarget.reset();
