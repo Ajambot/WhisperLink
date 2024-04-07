@@ -18,4 +18,26 @@
   .textContainer:hover {
     background-color: #ff0000; /* Changes background on hover */
   }
+
+  .addtextContainer {
+    padding: 5px 5px; /* Increase padding to make button larger */
+    margin: 5px; /* Adjust as needed */
+    background-color: #ffffff;
+    justify-content: center; /* Center items horizontally */
+    cursor: pointer; /* Changes cursor to pointer on hover */   
+    border-radius: 10px; /* Adjust the value to change the roundness */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+  }
+
+  .addtextContainer svg{
+    margin-right: 5px;
+  }
+
+  .addtextContainer:hover {
+    background-color: #003cff; /* Changes background on hover */
+  }
+  
   

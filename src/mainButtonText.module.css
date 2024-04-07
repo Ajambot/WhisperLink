@@ -3,8 +3,8 @@
     padding: 15px 30px; /* Increase padding to make button larger */
     margin: 5px; /* Adjust as needed */
     font-family: Arial, sans-serif;
-    color: #2c046d;
-    background-color: beige;
+    color: rgb(13, 1, 53);
+    background-color: #ff7300;
     justify-content: center; /* Center items horizontally */
     cursor: pointer;
     border-radius: 10px; /* Adjust the value to change the roundness */

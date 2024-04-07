@@ -58,7 +58,7 @@ const ChatBar = ({
         </button>
       ))}
       <button
-        className={Styles.textContainer}
+        className={Styles.addtextContainer}
         onClick={() =>
           setPopups({
             create: false, join: false, link: false, newChat: true,
