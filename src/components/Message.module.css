@@ -9,7 +9,7 @@
 
 .sentMessage {
   align-self: flex-end;
-  background-color: #dcf8c6; /* Light green background for sent messages */
+  background-color: #96ff46; 
   border-radius: 20px;
   padding: 10px;
   font-family: 'Oswald', sans-serif;
@@ -20,7 +20,7 @@
 
 .receivedMessage {
   align-self: flex-start;
-  background-color: #f0f0f0; /* Light gray background for received messages */
+  background-color: #69e6ff; 
   border-radius: 20px;
   padding: 10px;
   font-family: 'Oswald', sans-serif;

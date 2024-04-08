@@ -44,7 +44,7 @@ const Chat = ({ user, children, chatId, showLink, chats, openChat, setOpenChat, 
       </div>
       <div className={Styles.textBodyContainer}> {children} <div ref={endOfMessagesRef} /></div>
       <Chatbox user={user} chatId={chatId} showLink={showLink} />
-    </>
+      </>
   );
 };
 

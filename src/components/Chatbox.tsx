@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPaperclip } from '@fortawesome/free-solid-svg-icons';
+import { faPaperclip, faPaperPlane} from '@fortawesome/free-solid-svg-icons';
 import { sendMessage } from "../handlers";
 import { user } from "../types";
 import "../Global.module.css";
@@ -56,10 +56,10 @@ const Chatbox = ({ user, chatId, showLink }: Props) => {
       <button type='button' className={InputStyles.iconButton} onClick={triggerFileInput}>
       <FontAwesomeIcon icon={faPaperclip} />
       </button>
-      <button className={InputStyles.sendButton} type="submit">
-        Send Message
-      </button>
-      <button type="button" className={InputStyles.inviteButton} onClick={showLink}>Invite People</button>
+      <button className={InputStyles.iconButton} type="submit">
+      <FontAwesomeIcon icon={faPaperPlane} />
+       </button>
+      <button type="button" className={InputStyles.iconButton} onClick={showLink}>Invite People</button>
     </form>
     
   );
