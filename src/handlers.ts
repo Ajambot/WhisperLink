@@ -337,11 +337,12 @@ export const sendMessage = (
     message: string,
     file: File | undefined
   ) => {
+    const imageExtensions = ["apng", "avif", "gif", "jpg", "jpeg", "jfif", "pjpeg", "pjp", "png", "svg", "webp"];
     const groupKey = sender.keys[chatId].groupKey;
     if (groupKey === "pending") return;
     let fileLink, type, ivtemp;
     if (file) {
-      const extension = file.name.split(".").pop();
+      const extension = file.name.split(".").pop() as string;
       const filename = uuidv4() + "." + extension;
       const { encryptedFile, iv } = await encryptFile(file, groupKey);
       ivtemp = iv;
@@ -349,12 +350,14 @@ export const sendMessage = (
         (snapshot) =>
           getDownloadURL(snapshot.ref).then((downloadURL) => downloadURL)
       );
-      type = await getMetadata(ref(store, filename)).then((metadata) => {
-        const mime = metadata.contentType;
-        if (mime && mime.startsWith("image/")) return "image";
-        return "other";
-      });
+      type = imageExtensions.includes(extension?.toLowerCase())? "image": "other";
     }
+  // await getMetadata(ref(store, filename)).then((metadata) => {
+  //         const mime = metadata.contentType;
+  //         if (mime && mime.startsWith("image/")) return "image";
+  //         return "other";
+  //       });
+
     const { encryptedMessage, iv } = await encryptMessage(message, groupKey);
     const newMessage = {
       sender: { username: sender.username, userId: sender.userId },
@@ -379,9 +382,11 @@ export const sendMessage = (
 export const downloadFile = async (
   link: string | undefined,
   groupKey: CryptoKey | "pending",
-  iv: string | undefined
+  iv: string | undefined,
+  type: "image" | "other",
+  id?: string
 ) => {
-  void (async (link: string | undefined) => {
+  void (async () => {
     if (!link || groupKey === "pending" || !iv) return;
     try {
       const response = await fetch(link);
@@ -389,22 +394,28 @@ export const downloadFile = async (
       const blob = await decryptFile(encryptedBuffer, groupKey, iv);
       const blobUrl = window.URL.createObjectURL(blob);
 
-      const anchor = document.createElement("a");
-      anchor.href = blobUrl;
-      anchor.download = uuidv4();
-      anchor.target = "_blank";
-      document.body.appendChild(anchor);
+      if(type==="other"){
+        const anchor = document.createElement("a");
+        anchor.href = blobUrl;
+        anchor.download = uuidv4();
+        anchor.target = "_blank";
+        document.body.appendChild(anchor);
 
-      // Trigger the download
-      anchor.click();
+        // Trigger the download
+        anchor.click();
 
-      // Clean up
-      window.URL.revokeObjectURL(blobUrl);
-      document.body.removeChild(anchor);
+        // Clean up
+        window.URL.revokeObjectURL(blobUrl);
+        document.body.removeChild(anchor);
+      }
+      else if(id){
+        const img = document.getElementById(id) as HTMLImageElement;
+        img.src = blobUrl;
+      }
     } catch (error) {
       console.error("Error downloading file:", error);
     }
-  })(link);
+  })()
 };
 
 const encryptFile = async (file: File, groupKey: CryptoKey) => {

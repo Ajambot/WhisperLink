@@ -14,7 +14,7 @@ const Chatbox = ({ user, chatId }: Props) => {
 
   return (
     <form
-      className="chatroom-chatbox"
+      className="chat-chatbox"
       onSubmit={(e) => {
         e.preventDefault();
         if(!user) return

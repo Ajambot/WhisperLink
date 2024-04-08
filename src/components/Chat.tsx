@@ -15,7 +15,7 @@ const Chat = ({ user, children, chatId, showLink }: Props) => {
       <div className="chat-header">
         <button type="button" onClick={showLink}>Invite People</button>
       </div>
-      <div className="chatroom-main">{children}</div>
+      <div className="chat-main">{children}</div>
       <Chatbox user={user} chatId={chatId} />
     </div>
   );

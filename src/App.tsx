@@ -90,6 +90,14 @@ function App() {
     }
   }
 
+  const renderImage = (link: string | undefined, groupKey: CryptoKey | "pending" | undefined, iv: string | undefined) => {
+    if(!link || !groupKey || !iv) return;
+    const id = uuidv4();
+    console.log(link);
+    downloadFile(link, groupKey, iv, "image", id);
+    return (<img id={id}></img>)
+  }
+
   return (
     <>
       {chats.length ? (
@@ -151,9 +159,9 @@ function App() {
                   senderName={message.sender.username}
                 >
                   {message.file? message.file?.type==="image" ? (
-                    <img src={message.file?.link} />
-                  ) : (
-                    <button onClick={() => {if(user) downloadFile(message.file?.link, user.keys[chats[openChat].sessionId].groupKey, message.file?.iv)}}>Download {message.file?.link}</button>
+                    renderImage(message.file?.link, user?.keys[chats[openChat].sessionId].groupKey, message.file.iv)
+                                      ) : (
+                    <button onClick={() => {if(user) downloadFile(message.file?.link, user.keys[chats[openChat].sessionId].groupKey, message.file?.iv, "other")}}>Download {message.file?.link}</button>
                   ) : <></>}
                   {message.text}
                 </Message>
