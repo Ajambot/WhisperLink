@@ -14,7 +14,7 @@ import {
   arrayRemove,
   getDoc,
 } from "firebase/firestore";
-import type { chat, fbChat, normalUser, optionalChat, user } from "./types";
+import type { chat, fbChat, fbUser, normalUser, optionalChat, user } from "./types";
 import "crypto";
 import { SetStateAction } from "react";
 import {
@@ -117,14 +117,12 @@ export const addChatsListener = (
       }
       for (const chat of userChats) {
         const messages = chat.messages;
+        if(!user.keys[chat.sessionId] || (user.keys[chat.sessionId].groupKey==="pending")) continue;
         const groupKey = user.keys[chat.sessionId].groupKey;
-        if (groupKey === "pending") {
-          continue;
-        }
         const decryptedMessages = await Promise.all(messages.map(async (msg) => {
             msg.text = await decryptMessage(
               stringToBuffer(msg.text),
-              groupKey,
+              groupKey as CryptoKey,
               msg.iv
             );
             return msg;
@@ -317,12 +315,13 @@ export const fetchQuestion = (
   })(chatId);
 };
 
-export const leaveChat = (chatId: string, user: user) => {
-  void (async (chatId: string, user: user) => {
+export const leaveChat = (chatId: string, userId: string, users: fbUser[]) => {
+  const newUsers = users.filter(curUser => curUser.userId !== userId)
+  void (async () => {
     await updateDoc(doc(db, "Chats", chatId), {
-      users: arrayRemove(user),
+      users: newUsers
     });
-  })(chatId, user);
+  })();
 };
 
 export const sendMessage = (

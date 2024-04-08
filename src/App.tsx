@@ -83,7 +83,7 @@ function App() {
   const closeChat = (index: number) => {
     if (user && chats.length){
       if(chats.length===1) setPopups({link: false, create: false, join: false, newChat: false});
-      leaveChat(chats[index].sessionId, user);
+      leaveChat(chats[index].sessionId, user.userId, chats[index].users);
       if(index<=openChat){
         setOpenChat(openChat==0? openChat : openChat-1);
       }
@@ -93,7 +93,6 @@ function App() {
   const renderImage = (link: string | undefined, groupKey: CryptoKey | "pending" | undefined, iv: string | undefined) => {
     if(!link || !groupKey || !iv) return;
     const id = uuidv4();
-    console.log(link);
     downloadFile(link, groupKey, iv, "image", id);
     return (<img id={id}></img>)
   }
