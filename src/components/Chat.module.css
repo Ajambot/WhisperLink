@@ -1,5 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&display=swap');
 
+.mainBodyContainer
+{
+  display: flex;
+  justify-content: center;
+  text-align: center; /* Center text inside the container */
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
 .chatNavBar {
     display: flex;
     background-color: #ffffff; /* Light grey background */
@@ -38,6 +47,50 @@
     font-weight: bold; /* Makes the active tab text bolder */
   }
   
+
+
+  .textBodyContainer
+  {
+    position: fixed;
+    flex-direction: column-reverse;
+    color: #6aaaff;
+    background-color: #7e3131;
+    text-align: center; /* Center text inside the container */
+    overflow: auto; 
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 70%;
+    max-height: 200vh;
+    transform: translate(-50%, -50%);
+    background-color: #232323;
+    border-left: 1px solid #393939;
+    border-right: 1px solid #393939;
+    border-top: 2px solid #393939;
+    border-bottom: 4px solid #393939;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .closeTextContainer {
+    padding: 5px 5px; /* Increase padding to make button larger */
+    margin: 5px; /* Adjust as needed */
+    background-color: #ffffff;
+    justify-content: center; /* Center items horizontally */
+    cursor: pointer; /* Changes cursor to pointer on hover */   
+    border-radius: 10px; /* Adjust the value to change the roundness */
+    text-align: center;
+    font-family: 'Oswald', sans-serif;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+  }
+
+
+  .closeTextContainer:hover {
+    background-color: #ff0000; /* Changes background on hover */
+  }
+  
   .addTextContainer {
     padding: 5px 5px; /* Increase padding to make button larger */
     margin: 5px; /* Adjust as needed */
@@ -51,32 +104,7 @@
     transition: background-color 0.3s; /* Smooth transition for hover effect */
   }
 
-  .addTextContainer svg{
-    margin-right: 5px;
-  }
 
   .addTextContainer:hover {
     background-color: #003cff; /* Changes background on hover */
-  }
-
-  .textBodyContainer
-  {
-    position: fixed;
-    flex-direction: column-reverse;
-    color: #6aaaff;
-    text-shadow: 1px 1px 1px #ff730080; /* Adds shadow */
-    text-transform: uppercase;
-    text-align: center; /* Center text inside the container */
-    overflow: auto; 
-    top: 50%;
-    left: 50%;
-    width: 60%;
-    height: 70%;
-    max-height: 300vh;
-    max-width: 200vw;
-    transform: translate(-50%, -50%);
-    background-color: #232323;
-    border: 1px solid #393939;
-    padding: 20px;
-    z-index: 9999; /* Ensure it's above other content */
   }
