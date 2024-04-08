@@ -1,11 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&display=swap');
 
-.mainBodyContainer 
-{
-  display: flex;
-  align-items: center;
-  width:100%
-}
 .chatNavBar {
     display: flex;
     background-color: #ffffff; /* Light grey background */
@@ -13,10 +7,10 @@
     border-radius: 1px; /* Rounds the corners of the buttons */
     font-family: 'Oswald', sans-serif;
     align-items: center; /* Adjust alignment as needed */
-    padding: 2px 1px; /* Add some padding above and below the tabs */
+    padding: 2px 0px;
     overflow-x: auto; /* Enables scrolling for overflow */
-    width: 100%;
-    max-width: 100%;
+    width: 99.8%;
+    max-width: 99.8%;
   }
   
   /*.textContainer is for .chatNavBar buttons*/ 
@@ -50,15 +44,14 @@
   /*Actual message body background*/
   .textBodyContainer
   {
-    border-radius: 1px; /* Rounds the corners of the buttons */
     flex-direction: column-reverse;
     color: #ffffff;
     text-align: center; /* Center text inside the container */
     overflow: auto; 
     top: 50%;
     left: 50%;
-    width: 100%;
-    max-width: 100%;
+    width: 99.8%;
+    max-width: 99.8%;
     min-height: 87vh;
     max-height: 87vh;
     background-color: #0c0c0c;
@@ -111,11 +104,11 @@
     height: max-content;
     max-height: max-content;
     display: flex;
-    width: 100%;
-    max-width: 100%;
+    width: 99.8%;
+    max-width: 99.8%;
     align-items: center;
     border-bottom: 1px solid #000000; /* Light grey border for some separation */
-    padding: 10px 0px 9px 3px;
+    padding: 10px 0px 9px 2px;
     background: #f0f0f0;
   }
   
