@@ -1,4 +1,5 @@
 import React from "react";
+import "../Global.module.css";
 import textStyles from './Popup.module.css'
 interface Props {
   title: string;

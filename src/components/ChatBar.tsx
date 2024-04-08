@@ -1,6 +1,7 @@
 import React from "react";
-import styles from "./ChatBar.module.css";
+import styles from "./Chat.module.css";
 import Styles from "./addCloseChat.module.css";
+import "../Global.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faPlus } from "@fortawesome/free-solid-svg-icons";
 
@@ -49,7 +50,7 @@ const ChatBar = ({
         </button>
       ))}
       <button
-        className={Styles.textContainer}
+        className={Styles.addTextContainer}
         onClick={() =>
           setPopups({ create: false, join: false, link: false, newChat: true })
         }

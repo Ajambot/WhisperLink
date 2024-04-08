@@ -1,5 +1,6 @@
 import React from "react";
 import styles from './HomePage.module.css'
+import "../Global.module.css";
 import textStyles from '../mainButtonText.module.css'
 interface HomePageProps {
   onJoin: () => void;

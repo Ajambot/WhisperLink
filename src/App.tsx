@@ -17,6 +17,7 @@ import Popup from "./components/Popup.tsx";
 import buttonStyles from "./buttonText.module.css"
 import mainStyles from "./mainButtonText.module.css"
 import main from "./App.module.css"
+import "./Global.module.css";
 import ChatBar from "./components/ChatBar.tsx";
 
 function App() {
@@ -102,7 +103,6 @@ function App() {
       {chats.length ? (
         <>
           <div className="chat-navbar">
-          <ChatBar chats={chats} openChat={openChat} setOpenChat={setOpenChat} leaveChat={closeChat}  setPopups={setPopups}/>
             {popups.newChat ? (
               <Popup
                 title="New Chat"
@@ -150,6 +150,11 @@ function App() {
             user={user}
             chatId={chats[openChat].sessionId}
             showLink={() => setPopups({create: false, newChat: false, join: false, link: true})}
+            setPopups={setPopups}
+            chats={chats}
+            openChat={openChat}
+            setOpenChat={setOpenChat}
+            closeChat={closeChat}
           >
             {chats[openChat].messages.map((message) => {
               return (

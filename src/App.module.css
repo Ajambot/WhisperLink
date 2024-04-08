@@ -1,10 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&display=swap');
+
 .textSet {
   font-size: 20px; /* Increase the font size */
   padding: 15px 30px; /* Increase padding to make button larger */
   text-transform: uppercase;
   margin: 5px; /* Adjust as needed */
-  font-family: Arial, sans-serif;
   color: #2c046d;
+  font-family: 'Oswald', sans-serif;
   background-color: beige;
   justify-content: center; /* Center items horizontally */
   padding: '10px 20px';
