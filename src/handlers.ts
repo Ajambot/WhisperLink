@@ -14,7 +14,14 @@ import {
   arrayRemove,
   getDoc,
 } from "firebase/firestore";
-import type { chat, fbChat, fbUser, normalUser, optionalChat, user } from "./types";
+import type {
+  chat,
+  fbChat,
+  fbUser,
+  normalUser,
+  optionalChat,
+  user,
+} from "./types";
 import "crypto";
 import { SetStateAction } from "react";
 import {
@@ -48,10 +55,47 @@ connectFirestoreEmulator(db, "127.0.0.1", 8080); // Remove in production
 connectStorageEmulator(store, "127.0.0.1", 9199); // Remove in production
 
 export const addChatsListener = (
-  user: user,
+  user: user | undefined,
   setChats: React.Dispatch<SetStateAction<chat[]>>,
   setUser: React.Dispatch<SetStateAction<user | undefined>>
 ) => {
+    void(async () => {
+      const storedUser = localStorage.getItem("user");
+      if (!user && storedUser) {
+        const parsedUser = JSON.parse(storedUser);
+        console.log(parsedUser);
+        for (const key in parsedUser.keys) {
+          parsedUser.keys[key].keyPair.publicKey = await crypto.subtle.importKey(
+            "jwk",
+            JSON.parse(parsedUser.keys[key].keyPair.publicKey),
+            {
+              name: "RSA-OAEP",
+              hash: "SHA-256",
+            },
+            true,
+            ["encrypt"]
+          );
+          parsedUser.keys[key].keyPair.privateKey = await crypto.subtle.importKey(
+            "jwk",
+            JSON.parse(parsedUser.keys[key].keyPair.privateKey),
+            {
+              name: "RSA-OAEP",
+              hash: "SHA-256",
+            },
+            true,
+            ["decrypt"]
+          );
+          parsedUser.keys[key].groupKey = await crypto.subtle.importKey(
+            "raw",
+            stringToBuffer(parsedUser.keys[key].groupKey),
+            { name: "AES-GCM" },
+            true,
+            ["encrypt", "decrypt"]
+          );
+        }
+        setUser(parsedUser);
+      }
+  })();
   const q = query(collection(db, "Chats"));
   const unsub = onSnapshot(q, (querySnapshot) => {
     const chats: chat[] = [];
@@ -62,7 +106,7 @@ export const addChatsListener = (
     });
     const userChats = chats.filter((chat) => {
       for (const curUser of chat.users) {
-        if (user.userId === curUser.userId) {
+        if (user?.userId === curUser.userId) {
           return true;
         }
       }
@@ -73,7 +117,7 @@ export const addChatsListener = (
         let changed = false;
         for (const curUser of chat.users) {
           if (
-            user.role === "admin" &&
+            user?.role === "admin" &&
             user.keys[chat.sessionId] &&
             curUser.groupEncryptedKey === "pending"
           ) {
@@ -117,19 +161,51 @@ export const addChatsListener = (
       }
       for (const chat of userChats) {
         const messages = chat.messages;
-        if(!user.keys[chat.sessionId] || (user.keys[chat.sessionId].groupKey==="pending")) continue;
+        if (
+          !user?.keys[chat.sessionId] ||
+          user.keys[chat.sessionId].groupKey === "pending"
+        )
+          continue;
         const groupKey = user.keys[chat.sessionId].groupKey;
-        const decryptedMessages = await Promise.all(messages.map(async (msg) => {
+        const decryptedMessages = await Promise.all(
+          messages.map(async (msg) => {
             msg.text = await decryptMessage(
               stringToBuffer(msg.text),
               groupKey as CryptoKey,
               msg.iv
             );
             return msg;
-        }));
+          })
+        );
         chat.messages = decryptedMessages;
-
       }
+
+      const stringKeys = { ...user?.keys } as Record<string, unknown>;
+      for (const key in user?.keys) {
+        const publicString = JSON.stringify(
+          await crypto.subtle.exportKey("jwk", user.keys[key].keyPair.publicKey)
+        );
+        const privateString = JSON.stringify(
+          await crypto.subtle.exportKey(
+            "jwk",
+            user.keys[key].keyPair.privateKey
+          )
+        );
+        const groupString = bufferToString(
+          await crypto.subtle.exportKey(
+            "raw",
+            user.keys[key].groupKey as CryptoKey
+          )
+        );
+        stringKeys[key] = {
+          keyPair: { publicKey: publicString, privateKey: privateString },
+          groupKey: groupString,
+        };
+      }
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ ...user, keys: stringKeys })
+      );
 
       setChats(userChats);
     })();
@@ -316,10 +392,10 @@ export const fetchQuestion = (
 };
 
 export const leaveChat = (chatId: string, userId: string, users: fbUser[]) => {
-  const newUsers = users.filter(curUser => curUser.userId !== userId)
+  const newUsers = users.filter((curUser) => curUser.userId !== userId);
   void (async () => {
     await updateDoc(doc(db, "Chats", chatId), {
-      users: newUsers
+      users: newUsers,
     });
   })();
 };
@@ -336,7 +412,19 @@ export const sendMessage = (
     message: string,
     file: File | undefined
   ) => {
-    const imageExtensions = ["apng", "avif", "gif", "jpg", "jpeg", "jfif", "pjpeg", "pjp", "png", "svg", "webp"];
+    const imageExtensions = [
+      "apng",
+      "avif",
+      "gif",
+      "jpg",
+      "jpeg",
+      "jfif",
+      "pjpeg",
+      "pjp",
+      "png",
+      "svg",
+      "webp",
+    ];
     const groupKey = sender.keys[chatId].groupKey;
     if (groupKey === "pending") return;
     let fileLink, type, ivtemp;
@@ -349,13 +437,15 @@ export const sendMessage = (
         (snapshot) =>
           getDownloadURL(snapshot.ref).then((downloadURL) => downloadURL)
       );
-      type = imageExtensions.includes(extension?.toLowerCase())? "image": "other";
+      type = imageExtensions.includes(extension?.toLowerCase())
+        ? "image"
+        : "other";
     }
-  // await getMetadata(ref(store, filename)).then((metadata) => {
-  //         const mime = metadata.contentType;
-  //         if (mime && mime.startsWith("image/")) return "image";
-  //         return "other";
-  //       });
+    // await getMetadata(ref(store, filename)).then((metadata) => {
+    //         const mime = metadata.contentType;
+    //         if (mime && mime.startsWith("image/")) return "image";
+    //         return "other";
+    //       });
 
     const { encryptedMessage, iv } = await encryptMessage(message, groupKey);
     const newMessage = {
@@ -393,7 +483,7 @@ export const downloadFile = async (
       const blob = await decryptFile(encryptedBuffer, groupKey, iv);
       const blobUrl = window.URL.createObjectURL(blob);
 
-      if(type==="other"){
+      if (type === "other") {
         const anchor = document.createElement("a");
         anchor.href = blobUrl;
         anchor.download = uuidv4();
@@ -406,15 +496,14 @@ export const downloadFile = async (
         // Clean up
         window.URL.revokeObjectURL(blobUrl);
         document.body.removeChild(anchor);
-      }
-      else if(id){
+      } else if (id) {
         const img = document.getElementById(id) as HTMLImageElement;
         img.src = blobUrl;
       }
     } catch (error) {
       console.error("Error downloading file:", error);
     }
-  })()
+  })();
 };
 
 const encryptFile = async (file: File, groupKey: CryptoKey) => {
@@ -541,14 +630,14 @@ const generateGroupKey = async () => {
   return groupKey;
 };
 
-const bufferToString = (iv: ArrayBuffer) => {
+export const bufferToString = (iv: ArrayBuffer) => {
   const ivHex = Array.from(new Uint8Array(iv))
     .map((byte) => ("0" + (byte & 0xff).toString(16)).slice(-2))
     .join("");
   return ivHex;
 };
 
-const stringToBuffer = (ivHex: string) => {
+export const stringToBuffer = (ivHex: string) => {
   const buffer = new Uint8Array(ivHex.length / 2);
   for (let i = 0; i < ivHex.length; i += 2) {
     buffer[i / 2] = parseInt(ivHex.substring(i, i + 2), 16);
