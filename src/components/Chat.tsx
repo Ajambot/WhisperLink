@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Chatbox from "./Chatbox";
 import { user } from "../types";
 import ChatBar from "./ChatBar"
 import Styles from "./Chat.module.css"
 import "../Global.module.css";
+import Buttons from "../buttonText.module.css"
 
 interface Props {
   children: React.ReactNode;
@@ -22,13 +23,28 @@ interface Props {
   }) => void;
 }
 
+
+  
+
 const Chat = ({ user, children, chatId, showLink, chats, openChat, setOpenChat, closeChat, setPopups}: Props) => {
+  const endOfMessagesRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    endOfMessagesRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [children]); // Depend on children so it triggers when they change
   return (
-    <div>
+    <div className={Styles.mainBodyContainer}>
       <div className="chat-header">
       <ChatBar chats={chats} openChat={openChat} setOpenChat={setOpenChat} leaveChat={closeChat}  setPopups={setPopups}/>        
       </div>
-      <div className={Styles.textBodyContainer}>{children}</div>
+      <div className={Styles.textBodyContainer}>
+        {children}
+        <div ref={endOfMessagesRef} />
+        </div>
       <Chatbox user={user} chatId={chatId} />
       <button type="button" onClick={showLink}>Invite People</button>
     </div>

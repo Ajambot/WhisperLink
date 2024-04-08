@@ -95,7 +95,7 @@ function App() {
     if(!link || !groupKey || !iv) return;
     const id = uuidv4();
     downloadFile(link, groupKey, iv, "image", id);
-    return (<img id={id}></img>)
+    return (<img id={id} className={main.responsiveImage} alt="message attachment"></img>)
   }
 
   return (
@@ -162,9 +162,10 @@ function App() {
                   isSender={message.sender.userId === user?.userId}
                   senderName={message.sender.username}
                 >
-                  {message.file? message.file?.type==="image" ? (
+                  {message.file? message.file?.type==="image" ?
+                  (
                     renderImage(message.file?.link, user?.keys[chats[openChat].sessionId].groupKey, message.file.iv)
-                                      ) : (
+                  ) : (
                     <button onClick={() => {if(user) downloadFile(message.file?.link, user.keys[chats[openChat].sessionId].groupKey, message.file?.iv, "other")}}>Download {message.file?.link}</button>
                   ) : <></>}
                   {message.text}

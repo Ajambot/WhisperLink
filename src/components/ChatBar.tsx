@@ -1,6 +1,5 @@
 import React from "react";
-import styles from "./Chat.module.css";
-import Styles from "./addCloseChat.module.css";
+import Styles from "./Chat.module.css";
 import "../Global.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faPlus } from "@fortawesome/free-solid-svg-icons";
@@ -26,18 +25,18 @@ const ChatBar = ({
   setPopups,
 }: Props) => {
   return (
-    <div className={styles.chatNavBar}>
+    <div className={Styles.chatNavBar}>
       {chats.map((chat, index) => (
         <button
           key={index}
-          className={`${styles.textContainer} ${
-            openChat === index ? styles.active : ""
+          className={`${Styles.textContainer} ${
+            openChat === index ? Styles.active : ""
           }`}
           onClick={() => setOpenChat(index)}
         >
           {chat.chatName}
           <button
-            className={Styles.textContainer}
+            className={Styles.closeTextContainer}
             onClick={(e) => {
               e.stopPropagation();
               leaveChat(index);
