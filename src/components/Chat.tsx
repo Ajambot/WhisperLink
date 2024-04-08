@@ -38,17 +38,14 @@ const Chat = ({ user, children, chatId, showLink, chats, openChat, setOpenChat, 
   }, [children]); // Depend on children so it triggers when they change
 
   return (
-    <div>
+    <>
       <div className={Styles.chatNavBar}>
       <ChatBar chats={chats} openChat={openChat} setOpenChat={setOpenChat} leaveChat={closeChat}  setPopups={setPopups}/>        
       </div>
-      <div className={Styles.textBodyContainer}>
-        {children}
-        <div ref={endOfMessagesRef} />
-        </div>
+      <div className={Styles.textBodyContainer}> {children} <div ref={endOfMessagesRef} /></div>
       <Chatbox user={user} chatId={chatId} />
       <button type="button" onClick={showLink}>Invite People</button>
-    </div>
+      </>
   );
 };
 

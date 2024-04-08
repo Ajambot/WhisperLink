@@ -101,7 +101,6 @@ function App() {
     <>
       {chats.length ? (
         <>
-          <div className="chat-navbar">
             {popups.newChat ? (
               <Popup
                 title="New Chat"
@@ -144,7 +143,6 @@ function App() {
             ) : (
               <></>
             )}
-          </div>
           <Chat
             user={user}
             chatId={chats[openChat].sessionId}
