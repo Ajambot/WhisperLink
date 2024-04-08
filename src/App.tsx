@@ -155,7 +155,7 @@ function App()
             )}
           </div>
           {popups.currChat && (
-          <Popup title="Chat"
+          <Popup
           closeFn={() =>
             setPopups({
               create: false,

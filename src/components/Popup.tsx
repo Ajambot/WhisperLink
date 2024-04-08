@@ -3,7 +3,7 @@ import textStyles from './Popup.module.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faPlus } from "@fortawesome/free-solid-svg-icons";
 interface Props {
-  title: string;
+  title?: string;
   children: React.ReactNode;
   closeFn: () => void;
 }
