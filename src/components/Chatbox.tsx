@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { sendMessage } from "../handlers";
 import { user } from "../types";
+import "../Global.module.css";
 import Styles from "../buttonText.module.css"
 
 interface Props {
@@ -24,7 +25,7 @@ const Chatbox = ({ user, chatId }: Props) => {
         e.currentTarget.reset();
       }}
     >
-      <input style={{fontSize: '15px', fontFamily: 'Arial'}}
+      <input style={{fontSize: '15px'}}
         type="text"
         placeholder="Type a message"
         className="chatbox-input"

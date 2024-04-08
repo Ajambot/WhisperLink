@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&display=swap');
+
 .textContainer {
     padding: 5px 5px; /* Increase padding to make button larger */
     margin: 5px; /* Adjust as needed */
@@ -6,6 +8,7 @@
     cursor: pointer; /* Changes cursor to pointer on hover */   
     border-radius: 10px; /* Adjust the value to change the roundness */
     text-align: center;
+    font-family: 'Oswald', sans-serif;
     text-decoration: none;
     display: inline-block;
     transition: background-color 0.3s; /* Smooth transition for hover effect */

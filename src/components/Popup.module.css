@@ -1,8 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&display=swap');
+
 .buttonContainer {
     font-size: 15px;
     /*Increasethefontsize*/padding: 10px 10px;
     /*Increasepaddingtomakebuttonlarger*/text-transform: uppercase;
-    font-family: Arial, sans-serif;
     color: #2c046d;
     background-color: beige;
     cursor: pointer;
@@ -11,6 +12,7 @@
     top: 0%;
     left: 100%;
     margin-top: 10px;
+    font-family: 'Oswald', sans-serif;
     transform: translate(-150%);
     -webkit-transform: translate(-150%);
     -moz-transform: translate(-150%);
@@ -26,6 +28,7 @@
     text-transform: uppercase;
     text-align: center; /* Center text inside the container */
     top: 50%;
+    font-family: 'Oswald', sans-serif;
     left: 50%;
     width: 30%; /* Adjust the width as needed */
     transform: translate(-50%, -50%);
