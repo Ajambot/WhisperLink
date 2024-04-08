@@ -4,13 +4,21 @@
 body, #root {
   margin: 0;
   padding: 0;
-  background-color: #43BCCD;
-  height: 100px;
   font-family: 'Oswald', sans-serif;
-  display: flex;
   justify-content: center; /* Center items horizontally */
   text-align: center; /* Center text inside the container */
 }
+
+.imageContainer
+{
+  background-image: url('../example.webp'); /* Adjust the path based on your project structure */
+  height: 100%;
+  width: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 500px;
+}
+
 .message {
   font-size: 60px;
   font-weight: bold;
@@ -26,6 +34,8 @@ body, #root {
 .titleContainer {
   display: flex;
   flex-direction: column;
+  height:max-content;
+  width: max-content;
   gap: 40px;
   margin: 0;
   position: absolute;

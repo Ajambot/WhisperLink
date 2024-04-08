@@ -59,8 +59,8 @@
     left: 50%;
     width: 100%;
     max-width: 100%;
-    min-height: 88.8vh;
-    max-height: 88.8vh;
+    min-height: 87vh;
+    max-height: 87vh;
     background-color: #0c0c0c;
     border-left: 1px solid #393939;
     border-right: 1px solid #393939;
@@ -115,7 +115,7 @@
     max-width: 100%;
     align-items: center;
     border-bottom: 1px solid #000000; /* Light grey border for some separation */
-    padding: 10px 0px 9px 4px;
+    padding: 10px 0px 9px 3px;
     background: #f0f0f0;
   }
   
