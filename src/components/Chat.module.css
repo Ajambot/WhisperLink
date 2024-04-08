@@ -1,11 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&display=swap');
 
-.mainBodyContainer 
-{
-  display: flex;
-  align-items: center;
-  width:100%
-}
 .chatNavBar {
     display: flex;
     background-color: #ffffff; /* Light grey background */
@@ -15,8 +9,8 @@
     align-items: center; /* Adjust alignment as needed */
     padding: 1px 1px; /* Add some padding above and below the tabs */
     overflow-x: auto; /* Enables scrolling for overflow */
-    width: 99%;
-    max-width: 99%;
+    width: 100%;
+    max-width: 100%;
   }
   
   /*.textContainer is for .chatNavBar buttons*/ 
@@ -24,7 +18,7 @@
     background-color: #ffffff; 
     width: auto;
     color: #000000; 
-    padding: 8px 16px; 
+    padding: 5px 15px; 
     margin-right: 3px; /* Adds some space between the buttons */
     margin-left: 3px; /* Adds some space between the buttons */
     border: none; /* Removes the border */
@@ -57,8 +51,8 @@
     overflow: auto; 
     top: 50%;
     left: 50%;
-    width: 99%;
-    max-width: 99%;
+    width: 100%;
+    max-width: 100%;
     min-height: 85.3vh;
     max-height: 85.3vh;
     background-color: #232323;
@@ -108,21 +102,22 @@
   }
 
   .chatboxContainer {
+    height: max-content;
+    max-height: max-content;
     display: flex;
-    width: 99%;
-    max-width: 99%;
+    width: 100%;
+    max-width: 100%;
     align-items: center;
-    padding: 20px 0px;
+    padding: 10px 1px 10px 1px;
     background: #f0f0f0;
     border-radius: 1%;
-    margin: 0px;
   }
   
   .inputText {
     flex-grow: 1;
     margin-left: 5vw;
     margin-right: 5vw;
-    padding: 5px 10px;
+    padding: 3px 10px;
     font-size: 16px;
     border: none;
     border-radius: 20px;
@@ -135,7 +130,7 @@
   
   .sendButton,
   .inviteButton {
-    padding: 5px 10px;
+    padding: 3px 10px;
     margin-left: 5vw;
     margin-right: 5vw;
     font-size: 16px;
@@ -146,7 +141,7 @@
   
   /* Style for the icon button */
   .iconButton {
-    padding: 5px 10px;
+    padding: 3px 10px;
     margin-left: 5vw;
     margin-right: 5vw;
     background: none;
