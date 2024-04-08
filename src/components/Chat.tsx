@@ -36,9 +36,10 @@ const Chat = ({ user, children, chatId, showLink, chats, openChat, setOpenChat, 
   useEffect(() => {
     scrollToBottom();
   }, [children]); // Depend on children so it triggers when they change
+
   return (
-    <div className={Styles.mainBodyContainer}>
-      <div className="chat-header">
+    <div>
+      <div className={Styles.chatNavBar}>
       <ChatBar chats={chats} openChat={openChat} setOpenChat={setOpenChat} leaveChat={closeChat}  setPopups={setPopups}/>        
       </div>
       <div className={Styles.textBodyContainer}>

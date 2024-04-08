@@ -25,7 +25,7 @@ const ChatBar = ({
   setPopups,
 }: Props) => {
   return (
-    <div className={Styles.chatNavBar}>
+    <div>
       {chats.map((chat, index) => (
         <button
           key={index}

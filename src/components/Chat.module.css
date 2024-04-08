@@ -3,8 +3,6 @@
 .mainBodyContainer
 {
   display: flex;
-  justify-content: center;
-  text-align: center; /* Center text inside the container */
   align-items: center;
   width: 100%;
   height: 100%;
@@ -18,15 +16,17 @@
     align-items: center; /* Adjust alignment as needed */
     padding: 1px 0; /* Add some padding above and below the tabs */
     overflow-x: auto; /* Enables scrolling for overflow */
-    width: fit-content;
+    width: 100%;
+    max-width: 100%;
     white-space: nowrap; /* Prevents wrapping of tabs */
   }
   
+  /*.textContainer is for .chatNavBar buttons*/ 
   .textContainer {
-    background-color: #ffffff; /* Slightly darker grey than the navbar */
+    background-color: #ffffff; 
     width: auto;
-    color: #000000; /* Dark grey or black text */
-    padding: 8px 16px; /* Vertical and horizontal padding */
+    color: #000000; 
+    padding: 8px 16px; 
     margin-right: 3px; /* Adds some space between the buttons */
     margin-left: 3px; /* Adds some space between the buttons */
     border: none; /* Removes the border */
@@ -49,6 +49,7 @@
   
 
 
+  /*Actual message body background*/
   .textBodyContainer
   {
     position: fixed;
