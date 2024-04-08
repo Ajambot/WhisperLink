@@ -5,20 +5,20 @@ import Message from "./components/Message";
 import Chat from "./components/Chat";
 import {
   addChatsListener,
+  bufferToString,
   createNewChat,
   downloadFile,
   fetchQuestion,
-  generateKeyPair,
   joinChat,
   leaveChat,
+  stringToBuffer,
 } from "./handlers";
-import { chat, normalUser, user } from "./types";
+import { chat, user } from "./types";
 import Popup from "./components/Popup.tsx";
 import buttonStyles from "./buttonText.module.css"
 import mainStyles from "./mainButtonText.module.css"
 import main from "./App.module.css"
 import "./Global.module.css";
-import ChatBar from "./components/ChatBar.tsx";
 
 function App() {
   const [chats, setChats] = useState<chat[]>([]);
@@ -31,12 +31,11 @@ function App() {
     join: false,
     newChat: false,
   });
-  const [normalUser, setNormalUser] = useState<normalUser>()
   const [code, setCode] = useState("");
   const [valError, setValError] = useState(false);
 
   useEffect(() => {
-    if(!user) return;
+    if(!user && !localStorage.getItem("user")) return;
     const unsub = addChatsListener(user, setChats, setUser);
     return () => unsub();
   }, [user]);
