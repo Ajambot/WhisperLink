@@ -1,6 +1,8 @@
 import React from "react";
 import "../Global.module.css";
 import textStyles from './Popup.module.css'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes, faPlus } from "@fortawesome/free-solid-svg-icons";
 interface Props {
   title: string;
   children: React.ReactNode;
@@ -14,7 +16,7 @@ const Popup = ({ title, children, closeFn }: Props) => {
         <h1>{title}</h1>
         {children}
         <button className ={textStyles.buttonContainer} onClick={closeFn}>
-          X
+        <FontAwesomeIcon icon={faTimes} />
         </button>
       </div>
     </div>

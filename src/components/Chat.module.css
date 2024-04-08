@@ -10,13 +10,13 @@
     display: flex;
     background-color: #ffffff; /* Light grey background */
     border-bottom: 1px solid #000000; /* Light grey border for some separation */
-    border-radius: 15px; /* Rounds the corners of the buttons */
+    border-radius: 1px; /* Rounds the corners of the buttons */
     font-family: 'Oswald', sans-serif;
     align-items: center; /* Adjust alignment as needed */
     padding: 1px 1px; /* Add some padding above and below the tabs */
     overflow-x: auto; /* Enables scrolling for overflow */
-    width: 100%;
-    max-width: 100%;
+    width: 99%;
+    max-width: 99%;
   }
   
   /*.textContainer is for .chatNavBar buttons*/ 
@@ -29,7 +29,7 @@
     margin-left: 3px; /* Adds some space between the buttons */
     border: none; /* Removes the border */
     font-family: 'Oswald', sans-serif;
-    border-radius: 15px; /* Rounds the corners of the buttons */
+    border-radius: 7px; /* Rounds the corners of the buttons */
     cursor: pointer; /* Changes cursor to pointer on hover */
     font-size: 16px; /* Sets a standard font size */
     transition: background-color 0.3s; /* Smooth transition for hover effect */
@@ -50,22 +50,24 @@
   /*Actual message body background*/
   .textBodyContainer
   {
+    border-radius: 1px; /* Rounds the corners of the buttons */
     flex-direction: column-reverse;
     color: #6aaaff;
     text-align: center; /* Center text inside the container */
     overflow: auto; 
     top: 50%;
     left: 50%;
-    width: 100%;
-    min-height: 80vh;
-    max-height: 80vh;
+    width: 99%;
+    max-width: 99%;
+    min-height: 85.3vh;
+    max-height: 85.3vh;
     background-color: #232323;
     border-left: 1px solid #393939;
     border-right: 1px solid #393939;
     border-top: 2px solid #393939;
     border-bottom: 4px solid #393939;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 5px;
+    padding-bottom: 0px;
   }
 
   .closeTextContainer {
@@ -104,3 +106,52 @@
   .addTextContainer:hover {
     background-color: #003cff; /* Changes background on hover */
   }
+
+  .chatboxContainer {
+    display: flex;
+    width: 99%;
+    max-width: 99%;
+    align-items: center;
+    padding: 20px 0px;
+    background: #f0f0f0;
+    border-radius: 1%;
+    margin: 0px;
+  }
+  
+  .inputText {
+    flex-grow: 1;
+    margin-left: 5vw;
+    margin-right: 5vw;
+    padding: 5px 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 20px;
+    outline: none;
+  }
+  
+  .fileInput {
+    display: none; /* Hidden file input */
+  }
+  
+  .sendButton,
+  .inviteButton {
+    padding: 5px 10px;
+    margin-left: 5vw;
+    margin-right: 5vw;
+    font-size: 16px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+  
+  /* Style for the icon button */
+  .iconButton {
+    padding: 5px 10px;
+    margin-left: 5vw;
+    margin-right: 5vw;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+  }
+  

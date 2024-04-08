@@ -43,9 +43,8 @@ const Chat = ({ user, children, chatId, showLink, chats, openChat, setOpenChat, 
       <ChatBar chats={chats} openChat={openChat} setOpenChat={setOpenChat} leaveChat={closeChat}  setPopups={setPopups}/>        
       </div>
       <div className={Styles.textBodyContainer}> {children} <div ref={endOfMessagesRef} /></div>
-      <Chatbox user={user} chatId={chatId} />
-      <button type="button" onClick={showLink}>Invite People</button>
-      </>
+      <Chatbox user={user} chatId={chatId} showLink={showLink} />
+    </>
   );
 };
 
