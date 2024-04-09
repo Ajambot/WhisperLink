@@ -4,13 +4,14 @@
     font-size: 20px; /* Increase the font size */
     padding: 15px 30px; /* Increase padding to make button larger */
     margin: 5px; /* Adjust as needed */
-    color: #2c046d;
+    color: black;
     background-color: beige;
     justify-content: center; /* Center items horizontally */
     cursor: pointer;
     border-radius: 10px; /* Adjust the value to change the roundness */
     text-align: center;
     font-family: 'Oswald', sans-serif;
+    box-shadow: 1px 3px 6px black;
     text-decoration: none;
     display: inline-block;
   }

@@ -61,7 +61,9 @@
     max-width: 100%;
     min-height: 87vh;
     max-height: 87vh;
-    background-color: #0c0c0c;
+    /* background-color: #0c0c0c; */
+    background-image: url('../../Assets/Chat Background.jpg'); /* Adjust the path based on your project structure */
+    background-position: center;
     border-left: 1px solid #393939;
     border-right: 1px solid #393939;
     border-top: 2px solid #393939;

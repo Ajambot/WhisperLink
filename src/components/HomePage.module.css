@@ -7,11 +7,11 @@ body, #root {
   font-family: 'Oswald', sans-serif;
   justify-content: center; /* Center items horizontally */
   text-align: center; /* Center text inside the container */
+  background-image: url('../../Assets/Main Background.png'); /* Adjust the path based on your project structure */
 }
 
 .imageContainer
 {
-  background-image: url('../example.webp'); /* Adjust the path based on your project structure */
   height: 100%;
   width: 100%;
   background-position: center;
@@ -23,11 +23,11 @@ body, #root {
   font-size: 60px;
   font-weight: bold;
   font-family: 'Oswald', sans-serif;
-  text-shadow: 2px 2px 4px #ff7300;
+  text-shadow: 2px 2px 4px rgb(88, 184, 243);
   text-transform: uppercase;
   animation: pulse 2s ease-in-out infinite alternate,    glow 2s ease-in-out infinite alternate;
   padding: "10px 20px";
-  color: #000000;
+  color: beige;
   -webkit-animation: pulse 2s ease-in-out infinite alternate,    glow 2s ease-in-out infinite alternate;
 }
 
@@ -54,10 +54,14 @@ body, #root {
   display: block;
   width: 425px;
   height: 4px;
-  background-color: #ff7300;
+  background-color: beige;
   margin: 10px auto;
   border-radius: 2px;
-  transition: width 0.4s ease-in-out; /* Adds transition effect */
+  transition: width 0.4s ease-in-out;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
 }
 
 .buttonContainer {
@@ -91,9 +95,9 @@ body, #root {
 /* Animation for glowing effect */
 @keyframes glow {
   0% {
-    text-shadow: 2px 2px 4px #ff7300;
+    text-shadow: 4px 4px 6px black;
   }
   100% {
-    text-shadow: 2px 2px 4px #ff7300; /* Increased blur radius */
+    text-shadow: 4px 4px 6px black;
   }
 }
