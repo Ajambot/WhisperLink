@@ -48,7 +48,7 @@ function App() {
   }, []);
 
   const link = chats.length
-    ? "http://localhost:5000?chatId=" + chats[openChat].sessionId
+    ? (import.meta.env.PROD)? "https://whisperlink.web.app": "http://localhost:5000?chatId=" + chats[openChat].sessionId
     : "";
   const chatId = chats.length ? chats[openChat].sessionId : "";
 
