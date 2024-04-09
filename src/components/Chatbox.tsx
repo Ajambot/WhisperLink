@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPaperclip, faPaperPlane} from '@fortawesome/free-solid-svg-icons';
+import { faPaperclip, faPaperPlane, faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import { sendMessage } from "../handlers";
 import { user } from "../types";
 import "../Global.module.css";
@@ -35,10 +35,9 @@ const Chatbox = ({ user, chatId, showLink }: Props) => {
         e.currentTarget.reset();
       }}
     >
-      <input style={{fontSize: '20px', fontFamily: 'Oswald'}}
+      <input className={InputStyles.inputText}
         type="text"
         placeholder="Type a message"
-        className="chatbox-input"
         name="message text"
         value={msg}
         onChange={(e) => setMsg(e.target.value)}
@@ -59,7 +58,7 @@ const Chatbox = ({ user, chatId, showLink }: Props) => {
       <button className={InputStyles.iconButton} type="submit">
       <FontAwesomeIcon icon={faPaperPlane} />
        </button>
-      <button type="button" className={InputStyles.iconButton} onClick={showLink}>Invite People</button>
+      <button type="button" className={InputStyles.iconButton} onClick={showLink}><FontAwesomeIcon icon={faUserPlus} /></button>
     </form>
     
   );

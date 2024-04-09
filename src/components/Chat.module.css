@@ -2,15 +2,15 @@
 
 .chatNavBar {
     display: flex;
-    background-color: #ffffff; /* Light grey background */
+    background-color: #021527; /* Light grey background */
     border-bottom: 1px solid #000000; /* Light grey border for some separation */
     border-radius: 1px; /* Rounds the corners of the buttons */
     font-family: 'Oswald', sans-serif;
     align-items: center; /* Adjust alignment as needed */
     padding: 2px 0px;
     overflow-x: auto; /* Enables scrolling for overflow */
-    width: 99.8%;
-    max-width: 99.8%;
+    width: 99.9%;
+    max-width: 99.9%;
   }
   
   /*.textContainer is for .chatNavBar buttons*/ 
@@ -50,10 +50,10 @@
     overflow: auto; 
     top: 50%;
     left: 50%;
-    width: 99.8%;
-    max-width: 99.8%;
-    min-height: 87vh;
-    max-height: 87vh;
+    width: 99.9%;
+    max-width: 99.9%;
+    min-height: 87.5vh;
+    max-height: 87.5vh;
     background-color: #0c0c0c;
     border-left: 1px solid #393939;
     border-right: 1px solid #393939;
@@ -97,29 +97,31 @@
 
 
   .addTextContainer:hover {
-    background-color: #003cff; /* Changes background on hover */
+    background-color: #00fbff; /* Changes background on hover */
   }
 
   .chatboxContainer {
     height: max-content;
     max-height: max-content;
     display: flex;
-    width: 99.8%;
-    max-width: 99.8%;
+    width: 99.9%;
+    max-width: 99.9%;
     align-items: center;
     border-bottom: 1px solid #000000; /* Light grey border for some separation */
-    padding: 10px 0px 9px 2px;
-    background: #f0f0f0;
+    padding: 10px 0px 15px 2px;
+    background: #021527;
   }
   
   .inputText {
     flex-grow: 1;
-    margin-left: 5vw;
-    margin-right: 5vw;
-    padding: 3px 7px;
-    font-size: 16px;
+    min-width: 90vw; /* Minimum width */
+    max-width: 90vw; /* Maximum width */
+    margin-left: 0.2vw;
+    margin-right: 0.0vw;
+    padding: 3px 10px;
+    font-size: 30px;
     border: none;
-    border-radius: 20px;
+    border-radius: 7px;
     outline: none;
   }
   
@@ -129,12 +131,16 @@
   
   /* Style for the icon button */
   .iconButton {
+    display: inline-block;
+    color: #00fbff;
+    justify-content: center;
     padding: 3px 10px;
-    margin-left: 2vw;
-    margin-right: 2vw;
+    margin-left: 0.0vw;
+    margin-right: 0.0vw;
     background: none;
-    border: none;
+    border: 1px solid;
+    border-radius: 7px;
     cursor: pointer;
-    font-size: 20px;
+    font-size: 30px;
   }
   
