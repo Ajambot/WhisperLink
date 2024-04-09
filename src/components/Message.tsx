@@ -1,4 +1,5 @@
 import React from "react";
+import "../Global.module.css";
 import styles from "./Message.module.css"; // Assuming this is the path to your CSS module
 
 interface MessageProps {
