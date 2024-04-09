@@ -1,4 +1,3 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import {
   connectFirestoreEmulator,
@@ -10,15 +9,12 @@ import {
   updateDoc,
   setDoc,
   query,
-  where,
-  arrayRemove,
   getDoc,
 } from "firebase/firestore";
 import type {
   chat,
   fbChat,
   fbUser,
-  normalUser,
   optionalChat,
   user,
 } from "./types";
@@ -27,15 +23,11 @@ import { SetStateAction } from "react";
 import {
   connectStorageEmulator,
   getDownloadURL,
-  getMetadata,
   getStorage,
   ref,
   uploadBytes,
 } from "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
-import { MdSportsGolf } from "react-icons/md";
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 
 const firebaseConfig = {
   apiKey: "AIzaSyCQJ1BjqhJVMz8e3tjCRpVljF5NXP8Rw_0",
@@ -47,12 +39,13 @@ const firebaseConfig = {
   measurementId: "G-ZXS5MQRL5W",
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const store = getStorage(app);
-connectFirestoreEmulator(db, "127.0.0.1", 8080); // Remove in production
-connectStorageEmulator(store, "127.0.0.1", 9199); // Remove in production
+if(!import.meta.env.PROD){
+  connectFirestoreEmulator(db, "127.0.0.1", 8080);
+  connectStorageEmulator(store, "127.0.0.1", 9199);
+}
 
 export const addChatsListener = (
   user: user | undefined,
@@ -63,7 +56,6 @@ export const addChatsListener = (
       const storedUser = localStorage.getItem("user");
       if (!user && storedUser) {
         const parsedUser = JSON.parse(storedUser);
-        console.log(parsedUser);
         for (const key in parsedUser.keys) {
           parsedUser.keys[key].keyPair.publicKey = await crypto.subtle.importKey(
             "jwk",
@@ -441,11 +433,6 @@ export const sendMessage = (
         ? "image"
         : "other";
     }
-    // await getMetadata(ref(store, filename)).then((metadata) => {
-    //         const mime = metadata.contentType;
-    //         if (mime && mime.startsWith("image/")) return "image";
-    //         return "other";
-    //       });
 
     const { encryptedMessage, iv } = await encryptMessage(message, groupKey);
     const newMessage = {

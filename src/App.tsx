@@ -5,13 +5,11 @@ import Message from "./components/Message";
 import Chat from "./components/Chat";
 import {
   addChatsListener,
-  bufferToString,
   createNewChat,
   downloadFile,
   fetchQuestion,
   joinChat,
   leaveChat,
-  stringToBuffer,
 } from "./handlers";
 import { chat, user } from "./types";
 import Popup from "./components/Popup.tsx";

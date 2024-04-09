@@ -4,7 +4,6 @@ import { user } from "../types";
 import ChatBar from "./ChatBar"
 import Styles from "./Chat.module.css"
 import "../Global.module.css";
-import Buttons from "../buttonText.module.css"
 
 interface Props {
   children: React.ReactNode;
@@ -35,7 +34,7 @@ const Chat = ({ user, children, chatId, showLink, chats, openChat, setOpenChat, 
 
   useEffect(() => {
     scrollToBottom();
-  }, [children]); // Depend on children so it triggers when they change
+  }, [children]); 
 
   return (
     <>

@@ -1,7 +1,6 @@
 "use strict";
 
 import * as functions from "firebase-functions"
-// The Firebase Admin SDK to delete inactive users.
 import admin from "firebase-admin";
 admin.initializeApp();
 
@@ -12,15 +11,12 @@ exports.deleteOldRecords = functions.pubsub.schedule('every 24 hours').onRun(asy
                                 .where('createdAt', '<', new Date(currentTime));
 
     const batch = firestore.batch();
-    // Get old records
     const oldRecordsSnapshot = await oldRecordsQuery.get();
 
-    // Delete old records
     oldRecordsSnapshot.forEach(doc => {
         batch.delete(doc.ref);
     });
 
     functions.logger.log("Successfully deleted: ", oldRecordsSnapshot);
-    // Commit the batch
     return batch.commit();
 });

@@ -2,7 +2,7 @@
 
 .chatNavBar {
     display: flex;
-    background-color: #021527; /* Light grey background */
+    background-color: #596062; /* Light grey background */
     border-bottom: 1px solid #000000; /* Light grey border for some separation */
     border-radius: 1px; /* Rounds the corners of the buttons */
     font-family: 'Oswald', sans-serif;
@@ -111,13 +111,13 @@
     align-items: center;
     border-bottom: 1px solid #000000; /* Light grey border for some separation */
     padding: 10px 0px 15px 2px;
-    background: #021527;
+    background: #596062;
   }
 
-  .inputText {
+  .inputText, ::placeholder {
     flex-grow: 1;
-    background: #004B4E;
-    color: #00fbff;
+    background: #383f40;
+    color: #bcbcbc;
     min-width: 90vw; /* Minimum width */
     max-width: 90vw; /* Maximum width */
     margin-left: 0.2vw;
@@ -136,7 +136,7 @@
   /* Style for the icon button */
   .iconButton {
     display: inline-block;
-    color: #004B4E;
+    color: #383f40;
     justify-content: center;
     padding: 3px 10px;
     margin-left: 0.0vw;

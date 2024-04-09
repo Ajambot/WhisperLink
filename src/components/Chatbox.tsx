@@ -4,7 +4,6 @@ import { faPaperclip, faPaperPlane, faUserPlus } from '@fortawesome/free-solid-s
 import { sendMessage } from "../handlers";
 import { user } from "../types";
 import "../Global.module.css";
-import Styles from "../buttonText.module.css"
 import InputStyles from "./Chat.module.css"
 
 interface Props {
@@ -17,7 +16,6 @@ const Chatbox = ({ user, chatId, showLink }: Props) => {
   const [msg, setMsg] = useState<string>("");
   const [file, setFile] = useState<File>();
 
-   // Function to simulate clicking the hidden file input
    const triggerFileInput = () => {
     const fileInput = document.getElementById('fileInput');
     fileInput?.click();
@@ -60,7 +58,6 @@ const Chatbox = ({ user, chatId, showLink }: Props) => {
        </button>
       <button type="button" className={InputStyles.iconButton} onClick={showLink}><FontAwesomeIcon icon={faUserPlus} /></button>
     </form>
-    
   );
 };
 
