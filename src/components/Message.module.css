@@ -9,31 +9,48 @@
 
 .sentMessage {
   align-self: flex-end;
-  background-color: #96ff46; 
+  background-color: #075e54;
+  font-size: 25px;
   border-radius: 20px;
   padding: 10px;
+  padding-right: 20px;
   font-family: 'Oswald', sans-serif;
   max-width: 60%;
   margin: 5px;
   word-wrap: break-word;
+  min-width: 200px;
+  text-align: right;
+}
+
+.messageContainer p {
+  margin: 0;
 }
 
 .receivedMessage {
   align-self: flex-start;
-  background-color: #69e6ff; 
+  background-color: #383f40;
   border-radius: 20px;
+  font-size: 25px;
   padding: 10px;
+  padding-left: 20px;
+  min-width: 200px;
+  text-align: left;
   font-family: 'Oswald', sans-serif;
   max-width: 60%;
   margin: 5px;
   word-wrap: break-word;
+  min-width: 400px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
 }
 
 .senderName {
   font-size: 0.85em;
   margin-bottom: 4px;
   font-family: 'Oswald', sans-serif;
-  color: #666;
+  color: #c7f9cc;
   font-weight: bold;
 }
 

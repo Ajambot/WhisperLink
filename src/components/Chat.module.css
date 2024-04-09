@@ -81,7 +81,7 @@
 
 
   .closeTextContainer:hover {
-    background-color: #ff4000; /* Changes background on hover */
+    background-color: #ed7070; /* Changes background on hover */
   }
   
   .addTextContainer {
@@ -99,7 +99,7 @@
 
 
   .addTextContainer:hover {
-    background-color: #00fbff; /* Changes background on hover */
+    background-color: #70e98c; /* Changes background on hover */
   }
 
   .chatboxContainer {
@@ -113,7 +113,7 @@
     padding: 10px 0px 15px 2px;
     background: #021527;
   }
-  
+
   .inputText {
     flex-grow: 1;
     background: #004B4E;
@@ -128,11 +128,11 @@
     border-radius: 7px;
     outline: none;
   }
-  
+
   .fileInput {
     display: none; /* Hidden file input */
   }
-  
+
   /* Style for the icon button */
   .iconButton {
     display: inline-block;
@@ -147,4 +147,3 @@
     cursor: pointer;
     font-size: 30px;
   }
-  
