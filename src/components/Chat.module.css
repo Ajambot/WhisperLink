@@ -114,6 +114,8 @@
   
   .inputText {
     flex-grow: 1;
+    background: #004B4E;
+    color: #00fbff;
     min-width: 90vw; /* Minimum width */
     max-width: 90vw; /* Maximum width */
     margin-left: 0.2vw;
@@ -132,7 +134,7 @@
   /* Style for the icon button */
   .iconButton {
     display: inline-block;
-    color: #00fbff;
+    color: #004B4E;
     justify-content: center;
     padding: 3px 10px;
     margin-left: 0.0vw;
