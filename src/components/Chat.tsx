@@ -23,9 +23,9 @@ interface Props {
 }
 
 
-  
 
-const Chat = ({ user, children, chatId, showLink, chats, openChat, setOpenChat, closeChat, setPopups}: Props) => {
+
+const Chat = ({ user, children, chatId, showLink, chats, openChat, setOpenChat, closeChat, setPopups }: Props) => {
   const endOfMessagesRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -34,16 +34,19 @@ const Chat = ({ user, children, chatId, showLink, chats, openChat, setOpenChat, 
 
   useEffect(() => {
     scrollToBottom();
-  }, [children]); 
+  }, [children]);
 
   return (
-    <>
+    <div className={Styles.chatContainer}>
       <div className={Styles.chatNavBar}>
-      <ChatBar chats={chats} openChat={openChat} setOpenChat={setOpenChat} leaveChat={closeChat}  setPopups={setPopups}/>        
+        <ChatBar chats={chats} openChat={openChat} setOpenChat={setOpenChat} leaveChat={closeChat} setPopups={setPopups} />
       </div>
-      <div className={Styles.textBodyContainer}> {children} <div ref={endOfMessagesRef} /></div>
+      <div className={Styles.textBodyContainer}>
+        {children}
+        <div ref={endOfMessagesRef}></div>
+      </div>
       <Chatbox user={user} chatId={chatId} showLink={showLink} />
-      </>
+    </div>
   );
 };
 

@@ -29,9 +29,8 @@ const ChatBar = ({
       {chats.map((chat, index) => (
         <button
           key={index}
-          className={`${Styles.textContainer} ${
-            openChat === index ? Styles.active : ""
-          }`}
+          className={`${Styles.textContainer} ${openChat === index ? Styles.active : ""
+            }`}
           onClick={() => setOpenChat(index)}
         >
           {chat.chatName}
