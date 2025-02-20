@@ -16,7 +16,7 @@ const Chatbox = ({ user, chatId, showLink }: Props) => {
   const [msg, setMsg] = useState<string>("");
   const [file, setFile] = useState<File>();
 
-   const triggerFileInput = () => {
+  const triggerFileInput = () => {
     const fileInput = document.getElementById('fileInput');
     fileInput?.click();
   };
@@ -26,8 +26,8 @@ const Chatbox = ({ user, chatId, showLink }: Props) => {
       className={InputStyles.chatboxContainer}
       onSubmit={(e) => {
         e.preventDefault();
-        if(!user) return
-        sendMessage(chatId, user, msg, file, );
+        if (!user) return
+        sendMessage(chatId, user, msg, file,);
         setMsg("");
         setFile(undefined);
         e.currentTarget.reset();
@@ -39,6 +39,7 @@ const Chatbox = ({ user, chatId, showLink }: Props) => {
         name="message text"
         value={msg}
         onChange={(e) => setMsg(e.target.value)}
+        autoComplete="off"
       ></input>
       <input
         id='fileInput'
@@ -50,13 +51,15 @@ const Chatbox = ({ user, chatId, showLink }: Props) => {
           setFile(file);
         }}
       />
-      <button type='button' className={InputStyles.iconButton} onClick={triggerFileInput}>
-      <FontAwesomeIcon icon={faPaperclip} />
-      </button>
-      <button className={InputStyles.iconButton} type="submit">
-      <FontAwesomeIcon icon={faPaperPlane} />
-       </button>
-      <button type="button" className={InputStyles.iconButton} onClick={showLink}><FontAwesomeIcon icon={faUserPlus} /></button>
+      <div className={InputStyles.iconButtonContainer}>
+        <button type='button' className={InputStyles.iconButton} onClick={triggerFileInput}>
+          <FontAwesomeIcon icon={faPaperclip} />
+        </button>
+        <button className={InputStyles.iconButton} type="submit">
+          <FontAwesomeIcon icon={faPaperPlane} />
+        </button>
+        <button type="button" className={InputStyles.iconButton} onClick={showLink}><FontAwesomeIcon icon={faUserPlus} /></button>
+      </div>
     </form>
   );
 };

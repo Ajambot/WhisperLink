@@ -21,6 +21,7 @@
   top: 0;
   left: 0;
   z-index: 1000;
+  flex-wrap: nowrap; /* Ensure items stay on a single line */
 }
 
 /*.textContainer is for .chatNavBar buttons*/ 
@@ -60,45 +61,29 @@
   border-right: 1px solid #393939;
   border-top: 2px solid #393939;
   border-bottom: 4px solid #393939;
-  margin-top: 60px; /* Space for fixed navbar */
+  margin-top: 50px; /* Space for fixed navbar */
   margin-bottom: 60px; /* Space for fixed input box */
 }
 
-.closeTextContainer {
-  padding: 5px 5px; /* Increase padding to make button larger */
-  margin: 5px; /* Adjust as needed */
+.closeTextContainer, .addTextContainer {
+  padding: 5px 10px;
+  margin: 5px;
   background-color: #ffffff;
-  justify-content: center; /* Center items horizontally */
-  cursor: pointer; /* Changes cursor to pointer on hover */   
-  border-radius: 10px; /* Adjust the value to change the roundness */
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 10px;
   text-align: center;
-  font-family: 'Oswald', sans-serif;
   text-decoration: none;
   display: inline-block;
-  transition: background-color 0.3s; /* Smooth transition for hover effect */
+  transition: background-color 0.3s;
 }
-
 
 .closeTextContainer:hover {
-  background-color: #ed7070; /* Changes background on hover */
+  background-color: #ed7070;
 }
-
-.addTextContainer {
-  padding: 5px 5px; /* Increase padding to make button larger */
-  margin: 5px; /* Adjust as needed */
-  background-color: #ffffff;
-  justify-content: center; /* Center items horizontally */
-  cursor: pointer; /* Changes cursor to pointer on hover */   
-  border-radius: 10px; /* Adjust the value to change the roundness */
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  transition: background-color 0.3s; /* Smooth transition for hover effect */
-}
-
 
 .addTextContainer:hover {
-  background-color: #70e98c; /* Changes background on hover */
+  background-color: #70e98c;
 }
 
 /* Fixed Chatbox at the Bottom */
@@ -106,6 +91,7 @@
   width: 100%;
   display: flex;
   align-items: center;
+  justify-content: space-between; /* Ensure input and buttons are spaced evenly */
   border-top: 1px solid #000000;
   padding: 10px;
   background: #596062;
@@ -113,6 +99,8 @@
   bottom: 0;
   left: 0;
   z-index: 1000;
+  flex-wrap: nowrap; /* Ensure elements stay in a single line */
+  gap: 10px;
 }
 
 /* Chat Input Box */
@@ -120,12 +108,13 @@
   flex-grow: 1;
   background: #383f40;
   color: #bcbcbc;
-  width: 100%;
   padding: 10px;
   font-size: 16px;
   border: none;
   border-radius: 7px;
   outline: none;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .fileInput {
@@ -133,14 +122,23 @@
 }
 
 /* Style for the Icon Button */
+.iconButtonContainer {
+  display: flex;
+  gap: 5px; /* Adds spacing between buttons */
+  flex-wrap: nowrap; /* Ensure buttons remain on one line */
+  margin-right: 20px;
+}
+
 .iconButton {
-  display: inline-block;
-  color: #383f40;
+  display: flex;
+  align-items: center;
   justify-content: center;
-  padding: 5px 10px;
+  color: #383f40;
+  padding: 8px 12px;
   background: none;
   border: 1px solid;
   border-radius: 7px;
   cursor: pointer;
   font-size: 20px;
+  min-width: 40px;
 }
