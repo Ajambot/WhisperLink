@@ -33,7 +33,7 @@ function App() {
   const [valError, setValError] = useState(false);
 
   useEffect(() => {
-    if(!user && !localStorage.getItem("user")) return;
+    if (!user && !localStorage.getItem("user")) return;
     const unsub = addChatsListener(user, setChats, setUser);
     return () => unsub();
   }, [user]);
@@ -48,7 +48,7 @@ function App() {
   }, []);
 
   const link = chats.length
-    ? (import.meta.env.PROD)? "https://whisperlink.web.app?chatId=" + chats[openChat].sessionId: "http://localhost:5000?chatId=" + chats[openChat].sessionId
+    ? (import.meta.env.PROD) ? "https://whisperlink.web.app?chatId=" + chats[openChat].sessionId : "http://localhost:5000?chatId=" + chats[openChat].sessionId
     : "";
   const chatId = chats.length ? chats[openChat].sessionId : "";
 
@@ -59,7 +59,7 @@ function App() {
     const displayName = form.get("displayName") as string;
     const question = form.get("securityQuestion") as string;
     const answer = form.get("securityAnswer") as string;
-    createNewChat(chatName, setUser, setPopups, {question, answer}, displayName, user || undefined);
+    createNewChat(chatName, setUser, setPopups, { question, answer }, displayName, user || undefined);
   }
 
   const fetchHandler = (e: React.FormEvent<HTMLFormElement>) => {
@@ -79,17 +79,17 @@ function App() {
   }
 
   const closeChat = (index: number) => {
-    if (user && chats.length){
-      if(chats.length===1) setPopups({link: false, create: false, join: false, newChat: false});
+    if (user && chats.length) {
+      if (chats.length === 1) setPopups({ link: false, create: false, join: false, newChat: false });
       leaveChat(chats[index].sessionId, user.userId, chats[index].users);
-      if(index<=openChat){
-        setOpenChat(openChat==0? openChat : openChat-1);
+      if (index <= openChat) {
+        setOpenChat(openChat == 0 ? openChat : openChat - 1);
       }
     }
   }
 
   const renderImage = (link: string | undefined, groupKey: CryptoKey | "pending" | undefined, iv: string | undefined) => {
-    if(!link || !groupKey || !iv) return;
+    if (!link || !groupKey || !iv) return;
     const id = uuidv4();
     downloadFile(link, groupKey, iv, "image", id);
     return (<img id={id} className={main.responsiveImage} alt="message attachment"></img>)
@@ -99,52 +99,52 @@ function App() {
     <>
       {chats.length ? (
         <>
-            {popups.newChat ? (
-              <Popup
-                title="New Chat"
-                closeFn={() =>
-                  setPopups({
-                    create: false,
-                    join: false,
-                    link: false,
-                    newChat: false,
-                  })
-                }
-              >
-                <div className="buttons">
-                  <button className={mainStyles.textContainer}
-                    onClick={() => {
-                      setPopups({
-                        create: false,
-                        link: false,
-                        join: true,
-                        newChat: false,
-                      });
-                    }}
-                  >
-                    Join Chatroom
-                  </button>
-                  <button className={mainStyles.textContainer}
-                    onClick={() => {
-                      setPopups({
-                        create: true,
-                        link: false,
-                        join: false,
-                        newChat: false,
-                      });
-                    }}
-                  >
-                    Create Chatroom
-                  </button>
-                </div>
-              </Popup>
-            ) : (
-              <></>
-            )}
+          {popups.newChat ? (
+            <Popup
+              title="New Chat"
+              closeFn={() =>
+                setPopups({
+                  create: false,
+                  join: false,
+                  link: false,
+                  newChat: false,
+                })
+              }
+            >
+              <div className="buttons">
+                <button className={mainStyles.textContainer}
+                  onClick={() => {
+                    setPopups({
+                      create: false,
+                      link: false,
+                      join: true,
+                      newChat: false,
+                    });
+                  }}
+                >
+                  Join Chatroom
+                </button>
+                <button className={mainStyles.textContainer}
+                  onClick={() => {
+                    setPopups({
+                      create: true,
+                      link: false,
+                      join: false,
+                      newChat: false,
+                    });
+                  }}
+                >
+                  Create Chatroom
+                </button>
+              </div>
+            </Popup>
+          ) : (
+            <></>
+          )}
           <Chat
             user={user}
             chatId={chats[openChat].sessionId}
-            showLink={() => setPopups({create: false, newChat: false, join: false, link: true})}
+            showLink={() => setPopups({ create: false, newChat: false, join: false, link: true })}
             setPopups={setPopups}
             chats={chats}
             openChat={openChat}
@@ -153,18 +153,20 @@ function App() {
           >
             {chats[openChat].messages.map((message) => {
               return (
-                <Message
-                  isSender={message.sender.userId === user?.userId}
-                  senderName={message.sender.username}
-                >
-                  {message.file? message.file?.type==="image" ?
-                  (
-                    renderImage(message.file?.link, user?.keys[chats[openChat].sessionId].groupKey, message.file.iv)
-                  ) : (
-                    <button onClick={() => {if(user) downloadFile(message.file?.link, user.keys[chats[openChat].sessionId].groupKey, message.file?.iv, "other")}}>Download {message.file?.link}</button>
-                  ) : <></>}
-                  {message.text}
-                </Message>
+                <>
+                  <Message
+                    isSender={message.sender.userId === user?.userId}
+                    senderName={message.sender.username}
+                  >
+                    {message.file ? message.file?.type === "image" ?
+                      (
+                        renderImage(message.file?.link, user?.keys[chats[openChat].sessionId].groupKey, message.file.iv)
+                      ) : (
+                        <button onClick={() => { if (user) downloadFile(message.file?.link, user.keys[chats[openChat].sessionId].groupKey, message.file?.iv, "other") }}>Download {message.file?.link}</button>
+                      ) : <></>}
+                    <p>{message.text}</p>
+                  </Message>
+                </>
               );
             })}
           </Chat>
@@ -202,8 +204,8 @@ function App() {
           }
         >
           <div className={main.popupForm}>
-            <div style={{display: 'flex'}}>
-              <input type="text" style={{ padding: '12px', width: 'auto', flexGrow:'2'}} readOnly value={link} />
+            <div style={{ display: 'flex' }}>
+              <input type="text" style={{ padding: '12px', width: 'auto', flexGrow: '2' }} readOnly value={link} />
               <button className={buttonStyles.textContainer}
                 type="button"
                 onClick={() => navigator.clipboard.writeText(link)}
@@ -211,8 +213,8 @@ function App() {
                 Copy Join Link
               </button>
             </div>
-            <div style={{display: 'flex'}}>
-              <input type="text" style={{ padding: '12px', width: 'auto', flexGrow:'2'}} readOnly value={chatId} />
+            <div style={{ display: 'flex' }}>
+              <input type="text" style={{ padding: '12px', width: 'auto', flexGrow: '2' }} readOnly value={chatId} />
               <button className={buttonStyles.textContainer}
                 type="button"
                 onClick={() => navigator.clipboard.writeText(chatId)}
@@ -242,11 +244,11 @@ function App() {
             onSubmit={createHandler}
           >
             <div className={main.formField}>
-              <label htmlFor="chatName" style={{ fontSize: '22px'}}>Chat Name</label>
-              <input required type="text" style={{ padding: '12px'}} name="chatName"/>
+              <label htmlFor="chatName" style={{ fontSize: '22px' }}>Chat Name</label>
+              <input required type="text" style={{ padding: '12px' }} name="chatName" />
             </div>
             <div className={main.formField}>
-              <label htmlFor="displayName" style={{ fontSize: '22px'}}>Display Name</label>
+              <label htmlFor="displayName" style={{ fontSize: '22px' }}>Display Name</label>
               <input required style={{ padding: '12px' }}
                 type="text"
                 defaultValue={user?.username || ""}
@@ -254,7 +256,7 @@ function App() {
               />
             </div>
             <div className={main.formField}>
-              <label htmlFor="securityQuestion" style={{ fontSize: '22px'}}>Security Question</label>
+              <label htmlFor="securityQuestion" style={{ fontSize: '22px' }}>Security Question</label>
               <input style={{ padding: '12px' }}
                 type="text"
                 name="securityQuestion"
@@ -262,7 +264,7 @@ function App() {
               />
             </div>
             <div className={main.formField}>
-              <label htmlFor="securityAnswer" style={{ fontSize: '22px'}}>Answer</label>
+              <label htmlFor="securityAnswer" style={{ fontSize: '22px' }}>Answer</label>
               <input style={{ padding: '12px' }}
                 type="text"
                 name="securityAnswer"
@@ -291,31 +293,31 @@ function App() {
         >
           <form
             className={main.popupForm}
-            onSubmit={question? joinHandler : fetchHandler}
+            onSubmit={question ? joinHandler : fetchHandler}
           >
             <div className={main.formField}>
               <label htmlFor="chatId" style={{ fontSize: '22px', textAlign: "left" }}>Chat ID</label>
-              <input type="text" defaultValue={code || "" } style={{ padding: '12px'}} name="chatId" required/>
+              <input type="text" defaultValue={code || ""} style={{ padding: '12px' }} name="chatId" required />
             </div>
             <div className={main.formField}>
-              <label htmlFor="displayName" style={{ fontSize: '22px', textAlign: "left"}}>Display Name</label>
-              <input style={{ padding: '12px'}}
+              <label htmlFor="displayName" style={{ fontSize: '22px', textAlign: "left" }}>Display Name</label>
+              <input style={{ padding: '12px' }}
                 type="text"
                 defaultValue={user?.username || ""}
                 name="displayName"
                 required
               />
             </div>
-            <div className={`${main.formField} ${question? "": main.hidden}`}>
-              <label htmlFor="securityAnswer" style={{ fontSize: '22px', textAlign: "left"}}>{"Security Question: " + question || ""}</label>
-              <input style={{ padding: '12px'}}
+            <div className={`${main.formField} ${question ? "" : main.hidden}`}>
+              <label htmlFor="securityAnswer" style={{ fontSize: '22px', textAlign: "left" }}>{"Security Question: " + question || ""}</label>
+              <input style={{ padding: '12px' }}
                 type="text"
                 name="securityAnswer"
-                required={question!==undefined}
+                required={question !== undefined}
               />
             </div>
-            <p className={`${!valError? main.hidden : ""}`}>{question? "Incorrect security answer" : "Chat with specified ID not found"}</p>
-            <button type="submit" className={mainStyles.textContainer}>{question? "Join" : "Next"}</button>
+            <p className={`${!valError ? main.hidden : ""}`}>{question ? "Incorrect security answer" : "Chat with specified ID not found"}</p>
+            <button type="submit" className={mainStyles.textContainer}>{question ? "Join" : "Next"}</button>
           </form>
         </Popup>
       ) : (

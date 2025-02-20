@@ -31,9 +31,10 @@
 }
 
 .responsiveImage {
-  max-width: 100%;    /* Image will not exceed the width of the container */
-  max-height: 100%;   /* Image will not exceed the height of the container */
-  height: auto;       /* Image height will scale proportionally */
-  width: auto;        /* Image width will scale proportionally */
-  object-fit: contain; /* This will make sure the image is scaled properly within the container */
+  max-width: 60vw;  /* Limits width to 60% of viewport width */
+  max-height: 40vh; /* Limits height to 40% of viewport height */
+  height: auto;     /* Keeps aspect ratio */
+  width: auto;      /* Keeps aspect ratio */
+  object-fit: contain;
+  border-radius: 10px; /* Optional: Slightly rounded corners */
 }

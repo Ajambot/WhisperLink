@@ -13,7 +13,7 @@ const Message = ({ children, senderName, isSender }: MessageProps) => {
     <div className={styles.messageContainer}>
       <div className={isSender ? styles.sentMessage : styles.receivedMessage}>
         <div className={styles.senderName}>{senderName}</div>
-        <p>{children}</p>
+        {children}
       </div>
     </div>
   );
